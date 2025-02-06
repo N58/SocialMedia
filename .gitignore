@@ -3,3 +3,5 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+SocialMedia.AppHost/docker.env
+SocialMedia.API/appsettings.Development.json
