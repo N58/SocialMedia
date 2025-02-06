@@ -16,13 +16,10 @@ public sealed class ValidationExceptionHandlingMiddleware(RequestDelegate next)
         {
             var problemDetails = new ProblemDetails
             {
-                Status = StatusCodes.Status400BadRequest,
+                Status = StatusCodes.Status400BadRequest
             };
 
-            if (exception.Errors is not null)
-            {
-                problemDetails.Extensions["errors"] = exception.Errors;
-            }
+            if (exception.Errors is not null) problemDetails.Extensions["errors"] = exception.Errors;
 
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
 

@@ -13,7 +13,7 @@ public static class DiConfig
         var dbConnectionString = config.GetConnectionString("DefaultConnection");
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(dbConnectionString));
-        
+
         services.AddScoped<IPostRepository, PostRepository>();
     }
 }

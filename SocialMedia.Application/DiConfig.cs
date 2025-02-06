@@ -1,6 +1,5 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +23,7 @@ public static class DiConfig
         services.AddValidatorsFromAssemblyContaining<CreatePostValidator>();
         services.AddAutoMapper(typeof(CreatePostProfile));
     }
-    
+
     public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseMiddleware<ValidationExceptionHandlingMiddleware>();

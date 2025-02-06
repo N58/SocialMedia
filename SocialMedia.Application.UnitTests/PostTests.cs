@@ -1,5 +1,4 @@
 using AutoMapper;
-using FluentResults;
 using FluentValidation.TestHelper;
 using Moq;
 using SocialMedia.Application.Commands.CreatePost;
@@ -11,28 +10,25 @@ namespace SocialMedia.UnitTests;
 
 public class PostTests
 {
-    private readonly CreatePostValidator _validator = new();
-    private readonly Mock<IPostRepository> _postRepositoryMock = new();
     private readonly IMapper _mapper;
+    private readonly Mock<IPostRepository> _postRepositoryMock = new();
+    private readonly CreatePostValidator _validator = new();
 
     public PostTests()
     {
-        var configuration = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<CreatePostProfile>();
-        });
+        var configuration = new MapperConfiguration(cfg => { cfg.AddProfile<CreatePostProfile>(); });
 
         _mapper = configuration.CreateMapper();
     }
-    
+
     [Fact]
     public void Mapper_CommandMapping_MappedToPost()
     {
         const string initContent = "some random text";
         var command = new CreatePostCommand(initContent);
-    
+
         var post = _mapper.Map<Post>(command);
-    
+
         Assert.Equal(initContent, post.Content);
     }
 
@@ -45,11 +41,11 @@ public class PostTests
         var command = new CreatePostCommand(content);
 
         var result = _validator.TestValidate(command);
-        
+
         result.ShouldHaveValidationErrorFor(c => c.Content)
             .WithErrorMessage(Errors.Post.ContentIsRequired);
     }
-    
+
     [Fact]
     public void ContentValidator_ContentHasMinimumLength_ReturnsFail()
     {
@@ -57,7 +53,7 @@ public class PostTests
         var command = new CreatePostCommand(content);
 
         var result = _validator.TestValidate(command);
-        
+
         result.ShouldHaveValidationErrorFor(c => c.Content)
             .WithErrorMessage(Errors.Post.ContentExceedsMinLength);
     }
@@ -69,7 +65,7 @@ public class PostTests
         var command = new CreatePostCommand(content);
 
         var result = _validator.TestValidate(command);
-        
+
         result.ShouldHaveValidationErrorFor(c => c.Content)
             .WithErrorMessage(Errors.Post.ContentExceedsMaxLength);
     }
@@ -90,11 +86,11 @@ public class PostTests
         var command = new CreatePostCommand("some random text");
         var handler = new CreatePostCommandHandler(_postRepositoryMock.Object, _mapper);
         _postRepositoryMock
-            .Setup(x => 
+            .Setup(x =>
                 x.AddAsync(It.IsAny<Post>()));
-        
+
         await handler.Handle(command, default);
-        
+
         _postRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Post>()), Times.Once);
         _postRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Once);
     }

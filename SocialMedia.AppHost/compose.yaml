@@ -28,7 +28,7 @@
       /opt/mssql-tools18/bin/sqlcmd -C -S sqlserver -U sa -P ${SQLSERVER_PASSWORD} -d master -i docker-entrypoint-initdb.d/init.sql;
       echo "All done!";
       '
-      
+
 volumes:
   sqlserver_data:
 

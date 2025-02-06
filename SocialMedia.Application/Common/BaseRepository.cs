@@ -4,7 +4,8 @@ using SocialMedia.Domain.Common;
 
 namespace SocialMedia.Application.Common;
 
-public abstract class BaseRepository<TBaseEntity>(DbContext dbContext) : IBaseRepository<TBaseEntity> where TBaseEntity : BaseEntity
+public abstract class BaseRepository<TBaseEntity>(DbContext dbContext)
+    : IBaseRepository<TBaseEntity> where TBaseEntity : BaseEntity
 {
     public async Task<TBaseEntity?> GetByIdAsync(Guid id)
     {
@@ -15,7 +16,7 @@ public abstract class BaseRepository<TBaseEntity>(DbContext dbContext) : IBaseRe
     {
         return await dbContext.Set<TBaseEntity>().ToListAsync();
     }
-    
+
     public async Task AddAsync(TBaseEntity entity)
     {
         await dbContext.AddAsync(entity);

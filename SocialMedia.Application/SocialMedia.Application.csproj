@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <WarningsAsErrors>Nullable</WarningsAsErrors>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
             <_Parameter1>SocialMedia.Application.UnitTests</_Parameter1>
@@ -14,16 +14,16 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SocialMedia.Domain\SocialMedia.Domain.csproj" />
+        <ProjectReference Include="..\SocialMedia.Domain\SocialMedia.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="13.0.1" />
-      <PackageReference Include="FluentValidation" Version="12.0.0-preview1" />
-      <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-      <PackageReference Include="MediatR" Version="12.4.1" />
-      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
+        <PackageReference Include="FluentValidation" Version="12.0.0-preview1"/>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0"/>
+        <PackageReference Include="MediatR" Version="12.4.1"/>
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1"/>
     </ItemGroup>
 
 </Project>
