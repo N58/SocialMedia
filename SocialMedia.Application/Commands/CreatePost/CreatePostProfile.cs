@@ -1,12 +1,11 @@
 using AutoMapper;
-using SocialMedia.Application.Commands.CreatePost;
 using SocialMedia.Domain.Entities;
 
-namespace SocialMedia.API;
+namespace SocialMedia.Application.Commands.CreatePost;
 
-public class MapperProfile : Profile
+public class CreatePostProfile : Profile
 {
-    public MapperProfile()
+    public CreatePostProfile()
     {
         CreateMap<CreatePostCommand, Post>();
     }

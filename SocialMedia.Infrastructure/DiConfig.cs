@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SocialMedia.Domain.Interfaces;
-using SocialMedia.Persistence.Repositories;
+using SocialMedia.Application.Interfaces;
+using SocialMedia.Infrastructure.Repositories;
 
-namespace SocialMedia.Persistence;
+namespace SocialMedia.Infrastructure;
 
 public static class DiConfig
 {

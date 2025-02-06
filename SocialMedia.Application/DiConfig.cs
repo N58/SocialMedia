@@ -1,6 +1,32 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using MediatR;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using SocialMedia.Application.Commands.CreatePost;
+using SocialMedia.Application.Validation;
+
 namespace SocialMedia.Application;
 
-public class DiConfig
+public static class DiConfig
 {
+    public static void ConfigureServices(IServiceCollection services, ConfigurationManager config)
+    {
+        services.AddMediatR(config =>
+        {
+            config.RegisterServicesFromAssembly(typeof(DiConfig).Assembly);
+            config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+        });
+        services.AddFluentValidationAutoValidation();
+        services.AddFluentValidationClientsideAdapters();
+        services.AddValidatorsFromAssemblyContaining<CreatePostValidator>();
+        services.AddAutoMapper(typeof(CreatePostProfile));
+    }
     
+    public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
+    }
 }

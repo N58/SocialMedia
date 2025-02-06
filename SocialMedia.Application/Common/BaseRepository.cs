@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.Interfaces;
 using SocialMedia.Domain.Common;
 
 namespace SocialMedia.Application.Common;
 
-public abstract class BaseRepository<TBaseEntity>(DbContext dbContext) where TBaseEntity : BaseEntity
+public abstract class BaseRepository<TBaseEntity>(DbContext dbContext) : IBaseRepository<TBaseEntity> where TBaseEntity : BaseEntity
 {
     public async Task<TBaseEntity?> GetByIdAsync(Guid id)
     {
@@ -22,12 +23,17 @@ public abstract class BaseRepository<TBaseEntity>(DbContext dbContext) where TBa
 
     public async Task UpdateAsync(TBaseEntity entity)
     {
+        entity.UpdatedDate = DateTime.Now;
         dbContext.Set<TBaseEntity>().Update(entity);
-        await dbContext.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(TBaseEntity entity)
     {
         await dbContext.Set<TBaseEntity>().Where(x => x.Id == entity.Id).ExecuteDeleteAsync();
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await dbContext.SaveChangesAsync();
     }
 }

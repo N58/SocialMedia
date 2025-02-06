@@ -1,0 +1,39 @@
+﻿services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SQLSERVER_PASSWORD}
+    ports:
+      - "${SQLSERVER_PORT}:${SQLSERVER_PORT}"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P ${SQLSERVER_PASSWORD} -Q 'SELECT 1' || exit 1" ]
+      interval: 3s
+      retries: 5
+      start_period: 3s
+      timeout: 3s
+  sqlserver.configurator:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    volumes:
+      - ./SqlScripts:/docker-entrypoint-initdb.d
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    command: >
+      bash -c '
+      /opt/mssql-tools18/bin/sqlcmd -C -S sqlserver -U sa -P ${SQLSERVER_PASSWORD} -d master -i docker-entrypoint-initdb.d/init.sql;
+      echo "All done!";
+      '
+      
+volumes:
+  sqlserver_data:
+
+#  socialmedia.apphost:
+#    image: socialmedia.apphost
+#    build:
+#      context: .
+#      dockerfile: SocialMedia.AppHost/Dockerfile

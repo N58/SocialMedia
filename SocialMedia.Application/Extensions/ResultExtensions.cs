@@ -1,7 +1,7 @@
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SocialMedia.Domain.Extensions;
+namespace SocialMedia.Application.Extensions;
 
 public static class ResultExtensions
 {
@@ -11,8 +11,11 @@ public static class ResultExtensions
         var problemDetails = new ProblemDetails
         {
             Status = 400,
+            Extensions =
+            {
+                ["errors"] = errorMessages
+            }
         };
-        problemDetails.Extensions["errors"] = exception.Errors;
-        return new BadRequestObjectResult(new ProblemDetails { Errors = errorMessages });
+        return new BadRequestObjectResult(problemDetails);
     }
 }

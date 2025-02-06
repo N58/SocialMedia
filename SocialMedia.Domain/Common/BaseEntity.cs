@@ -1,15 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SocialMedia.Domain.Entities;
+namespace SocialMedia.Domain.Common;
 
-public class BaseEntity
+public abstract class BaseEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid ID { get; set; }
-    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.Now;
-    public DateTimeOffset? UpdatedDate { get; set; }
-    public DateTimeOffset? DeletedDate { get; set; }
-    public bool IsDeleted { get; set; } = false;
+    public Guid Id { get; set; }
+    public required DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.Now;
+    public required DateTimeOffset? UpdatedDate { get; set; }
 }

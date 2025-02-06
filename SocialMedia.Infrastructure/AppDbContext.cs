@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SocialMedia.Domain.Entities;
 
-namespace SocialMedia.Persistence;
+namespace SocialMedia.Infrastructure;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {

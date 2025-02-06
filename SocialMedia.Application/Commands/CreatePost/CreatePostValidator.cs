@@ -1,15 +1,15 @@
 using FluentValidation;
-using SocialMedia.Application.Commands.CreatePost;
 using SocialMedia.Domain.Constants;
 
-namespace SocialMedia.Application.Validators;
+namespace SocialMedia.Application.Commands.CreatePost;
 
-public class PostValidator : AbstractValidator<CreatePostCommand>
+public class CreatePostValidator : AbstractValidator<CreatePostCommand>
 {
-    public PostValidator()
+    public CreatePostValidator()
     {
         RuleFor(post => post.Content)
             .NotEmpty().WithMessage(Errors.Post.ContentIsRequired)
-            .MaximumLength(1000).WithMessage(Errors.Post.ContentCannotExceed);
+            .MinimumLength(3).WithMessage(Errors.Post.ContentExceedsMinLength)
+            .MaximumLength(1000).WithMessage(Errors.Post.ContentExceedsMaxLength);
     }
 }
