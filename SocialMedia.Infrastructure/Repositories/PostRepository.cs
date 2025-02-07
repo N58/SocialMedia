@@ -1,4 +1,3 @@
-using SocialMedia.Application.Common;
 using SocialMedia.Application.Interfaces;
 using SocialMedia.Domain.Entities;
 

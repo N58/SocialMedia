@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SocialMedia.Application.Interfaces;
 using SocialMedia.Domain.Common;
 
-namespace SocialMedia.Application.Common;
+namespace SocialMedia.Infrastructure.Repositories;
 
 internal abstract class BaseRepository<TBaseEntity>(DbContext dbContext)
     : IBaseRepository<TBaseEntity> where TBaseEntity : BaseEntity
