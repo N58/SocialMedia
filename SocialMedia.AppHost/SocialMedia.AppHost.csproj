@@ -17,9 +17,4 @@
         <PackageReference Include="Aspire.Hosting.AppHost"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\SocialMedia.API\SocialMedia.API.csproj"/>
-        <ProjectReference Include="..\SocialMedia.ServiceDefaults\SocialMedia.ServiceDefaults.csproj"/>
-    </ItemGroup>
-
 </Project>

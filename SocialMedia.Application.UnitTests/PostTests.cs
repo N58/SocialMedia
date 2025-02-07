@@ -43,7 +43,7 @@ public class PostTests
         var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(c => c.Content)
-            .WithErrorMessage(Errors.Post.ContentIsRequired);
+            .WithErrorMessage(Errors.Post.ContentIsRequired.Message);
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class PostTests
         var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(c => c.Content)
-            .WithErrorMessage(Errors.Post.ContentExceedsMinLength);
+            .WithErrorMessage(Errors.Post.ContentExceedsMinLength.Message);
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class PostTests
         var result = _validator.TestValidate(command);
 
         result.ShouldHaveValidationErrorFor(c => c.Content)
-            .WithErrorMessage(Errors.Post.ContentExceedsMaxLength);
+            .WithErrorMessage(Errors.Post.ContentExceedsMaxLength.Message);
     }
 
     [Fact]

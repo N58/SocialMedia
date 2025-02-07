@@ -1,4 +1,4 @@
-using SocialMedia.DI;
+using SocialMedia.API;
 using SocialMedia.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 DiConfig.ConfigureServices(builder.Services, builder.Configuration);
+SocialMedia.DI.DiConfig.ConfigureServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 

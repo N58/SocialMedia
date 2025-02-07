@@ -16,8 +16,6 @@ public class ValidationBehavior<TRequest, TResponse>(IValidator<TRequest> valida
 
         if (result.IsValid) return await next();
 
-        var error = new Error("Validation Error");
-
         var response = new TResponse();
 
         foreach (var reason in result.Errors)
