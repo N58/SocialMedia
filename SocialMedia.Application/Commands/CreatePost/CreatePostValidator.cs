@@ -1,4 +1,5 @@
 using FluentValidation;
+using SocialMedia.Domain.Constants;
 
 namespace SocialMedia.Application.Commands.CreatePost;
 

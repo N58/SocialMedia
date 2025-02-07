@@ -25,6 +25,11 @@ Content-Type: application/json
 }
 
 ### Get a post by id
-@postId = be1f7622-fe86-413d-3e64-08dd46e7a728
+@postId = be1f7622-fe86-413d-3e64-08dd46e7a726
 GET {{baseUrl}}/post/{{postId}}
+Content-Type: application/json
+
+### Get a post by id
+@postBadId = be1f7622-fe86-413d-3e64-08dd46e7a728
+GET {{baseUrl}}/post/{{postBadId}}
 Content-Type: application/json
