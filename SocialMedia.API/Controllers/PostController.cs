@@ -10,7 +10,7 @@ namespace SocialMedia.API.Controllers;
 public class PostController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Guid>> CreatePost(CreatePostCommand command)
     {

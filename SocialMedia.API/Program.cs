@@ -13,8 +13,6 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
-SocialMedia.Application.DiConfig.Configure(app, app.Environment);
-
 app.UseHttpsRedirection();
 
 app.MapControllers();

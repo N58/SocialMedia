@@ -4,6 +4,6 @@ using SocialMedia.Domain.Entities;
 
 namespace SocialMedia.Infrastructure.Repositories;
 
-public class PostRepository(AppDbContext dbContext) : BaseRepository<Post>(dbContext), IPostRepository
+internal class PostRepository(AppDbContext dbContext) : BaseRepository<Post>(dbContext), IPostRepository
 {
 }

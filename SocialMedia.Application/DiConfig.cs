@@ -23,9 +23,4 @@ public static class DiConfig
         services.AddValidatorsFromAssemblyContaining<CreatePostValidator>();
         services.AddAutoMapper(typeof(CreatePostProfile));
     }
-
-    public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-        app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
-    }
 }

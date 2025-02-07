@@ -4,7 +4,7 @@ using SocialMedia.Domain.Common;
 
 namespace SocialMedia.Application.Common;
 
-public abstract class BaseRepository<TBaseEntity>(DbContext dbContext)
+internal abstract class BaseRepository<TBaseEntity>(DbContext dbContext)
     : IBaseRepository<TBaseEntity> where TBaseEntity : BaseEntity
 {
     public async Task<TBaseEntity?> GetByIdAsync(Guid id)
