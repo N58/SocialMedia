@@ -84,11 +84,11 @@ public class CreatePostTests
         var handler = new CreatePostCommandHandler(_postRepositoryMock.Object, _mapper);
         _postRepositoryMock
             .Setup(x =>
-                x.AddAsync(It.IsAny<Post>()));
+                x.AddAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()));
 
         await handler.Handle(command, default);
 
-        _postRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Post>()), Times.Once);
-        _postRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+        _postRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()), Times.Once);
+        _postRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 }
