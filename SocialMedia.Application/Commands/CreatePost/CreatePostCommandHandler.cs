@@ -13,8 +13,8 @@ internal class CreatePostCommandHandler(IPostRepository postRepository, IMapper 
     {
         var post = mapper.Map<Post>(command);
 
-        await postRepository.AddAsync(post);
-        await postRepository.SaveChangesAsync();
+        await postRepository.AddAsync(post, cancellationToken);
+        await postRepository.SaveChangesAsync(cancellationToken);
 
         return Result.Ok(post.Id);
     }
