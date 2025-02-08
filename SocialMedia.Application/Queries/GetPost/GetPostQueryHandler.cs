@@ -10,7 +10,7 @@ internal class GetPostQueryHandler(IPostRepository postRepository) : IRequestHan
 {
     public async Task<Result<Post>> Handle(GetPostQuery request, CancellationToken cancellationToken)
     {
-        var post = await postRepository.GetByIdAsync(request.Id);
+        var post = await postRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (post == null) return Result.Fail<Post>(Errors.Post.NoPostWithGivenId);
 
