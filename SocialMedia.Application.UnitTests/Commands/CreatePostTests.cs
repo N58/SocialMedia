@@ -8,13 +8,13 @@ using SocialMedia.Domain.Entities;
 
 namespace SocialMedia.UnitTests;
 
-public class PostTests
+public class CreatePostTests
 {
     private readonly IMapper _mapper;
     private readonly Mock<IPostRepository> _postRepositoryMock = new();
     private readonly CreatePostValidator _validator = new();
 
-    public PostTests()
+    public CreatePostTests()
     {
         var configuration = new MapperConfiguration(cfg => { cfg.AddProfile<CreatePostProfile>(); });
     
