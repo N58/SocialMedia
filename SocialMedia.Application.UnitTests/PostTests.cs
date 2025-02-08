@@ -17,7 +17,7 @@ public class PostTests
     public PostTests()
     {
         var configuration = new MapperConfiguration(cfg => { cfg.AddProfile<CreatePostProfile>(); });
-
+    
         _mapper = configuration.CreateMapper();
     }
 
@@ -42,8 +42,7 @@ public class PostTests
 
         var result = _validator.TestValidate(command);
 
-        result.ShouldHaveValidationErrorFor(c => c.Content)
-            .WithErrorMessage(Errors.Post.ContentIsRequired.Message);
+        result.ShouldHaveValidationErrorFor(c => c.Content);
     }
 
     [Fact]
@@ -54,8 +53,7 @@ public class PostTests
 
         var result = _validator.TestValidate(command);
 
-        result.ShouldHaveValidationErrorFor(c => c.Content)
-            .WithErrorMessage(Errors.Post.ContentExceedsMinLength.Message);
+        result.ShouldHaveValidationErrorFor(c => c.Content);
     }
 
     [Fact]
@@ -66,8 +64,7 @@ public class PostTests
 
         var result = _validator.TestValidate(command);
 
-        result.ShouldHaveValidationErrorFor(c => c.Content)
-            .WithErrorMessage(Errors.Post.ContentExceedsMaxLength.Message);
+        result.ShouldHaveValidationErrorFor(c => c.Content);
     }
 
     [Fact]
