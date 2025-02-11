@@ -14,6 +14,6 @@ internal class GetPostQueryHandler(IPostRepository postRepository) : IRequestHan
 
         if (post == null) return Result.Fail<Post>(Errors.Post.NoPostWithGivenId);
 
-        return Result.Ok(post)!;
+        return Result.Ok(post);
     }
 }

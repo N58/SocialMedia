@@ -7,7 +7,6 @@ builder.AddServiceDefaults();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-DiConfig.ConfigureServices(builder.Services, builder.Configuration);
 SocialMedia.DI.DiConfig.ConfigureServices(builder.Services, builder.Configuration);
 
 
