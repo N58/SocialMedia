@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,5 +11,10 @@ public static class DiConfig
     {
         Infrastructure.DiConfig.ConfigureServices(services, config);
         Application.DiConfig.ConfigureServices(services, config);
+    }
+
+    public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        Application.DiConfig.Configure(app, env);
     }
 }

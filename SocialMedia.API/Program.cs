@@ -10,7 +10,10 @@ builder.Services.AddOpenApi();
 DiConfig.ConfigureServices(builder.Services, builder.Configuration);
 SocialMedia.DI.DiConfig.ConfigureServices(builder.Services, builder.Configuration);
 
+
 var app = builder.Build();
+
+SocialMedia.DI.DiConfig.Configure(app, app.Environment);
 
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
 

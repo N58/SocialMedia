@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.API.Responses.Post;
 using SocialMedia.Application.Commands.CreatePost;
-using SocialMedia.Application.Extensions;
 using SocialMedia.Application.Queries.GetPost;
 
 namespace SocialMedia.API.Controllers;
@@ -18,7 +17,6 @@ public class PostController(IMediator mediator, IMapper mapper) : ControllerBase
     public async Task<ActionResult<Guid>> CreatePost(CreatePostCommand command)
     {
         var result = await mediator.Send(command);
-        if (result.IsFailed) return result.ToResponse();
 
         return CreatedAtAction(
             nameof(CreatePost),
@@ -33,7 +31,6 @@ public class PostController(IMediator mediator, IMapper mapper) : ControllerBase
     public async Task<ActionResult<PostResponse>> GetPost(Guid id)
     {
         var result = await mediator.Send(new GetPostQuery(id));
-        if (result.IsFailed) return result.ToResponse();
 
         var response = mapper.Map<PostResponse>(result.Value);
         return Ok(response);
