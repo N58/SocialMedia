@@ -36,44 +36,44 @@ public class CreatePostTests
     [InlineData(" ")]
     [InlineData("")]
     [InlineData(null)]
-    public void ContentValidator_ContentIsEmpty_ReturnsFail(string content)
+    public async Task ContentValidator_ContentIsEmpty_ReturnsFail(string content)
     {
         var command = new CreatePostCommand(content);
 
-        var result = _validator.TestValidate(command);
+        var result = await _validator.TestValidateAsync(command);
 
         result.ShouldHaveValidationErrorFor(c => c.Content);
     }
 
     [Fact]
-    public void ContentValidator_ContentHasMinimumLength_ReturnsFail()
+    public async Task ContentValidator_ContentHasMinimumLength_ReturnsFail()
     {
         var content = new string('a', 2);
         var command = new CreatePostCommand(content);
 
-        var result = _validator.TestValidate(command);
+        var result = await _validator.TestValidateAsync(command);
 
         result.ShouldHaveValidationErrorFor(c => c.Content);
     }
 
     [Fact]
-    public void ContentValidator_ContentExceedsMaxLength_ReturnsFail()
+    public async Task ContentValidator_ContentExceedsMaxLength_ReturnsFail()
     {
         var content = new string('a', 1001);
         var command = new CreatePostCommand(content);
 
-        var result = _validator.TestValidate(command);
+        var result = await _validator.TestValidateAsync(command);
 
         result.ShouldHaveValidationErrorFor(c => c.Content);
     }
 
     [Fact]
-    public void ContentValidator_ContentIsValid_ReturnsOk()
+    public async Task ContentValidator_ContentIsValid_ReturnsOk()
     {
         var content = new string('a', 1000);
         var command = new CreatePostCommand(content);
 
-        var result = _validator.TestValidate(command);
+        var result = await _validator.TestValidateAsync(command);
         result.ShouldNotHaveValidationErrorFor(c => c.Content);
     }
 
