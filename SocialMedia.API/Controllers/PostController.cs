@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Application.Commands.CreatePost;
+using SocialMedia.Application.Commands.DeletePost;
 using SocialMedia.Application.Extensions;
 
 namespace SocialMedia.API.Controllers;
@@ -24,4 +25,15 @@ public class PostController(IMediator mediator) : ControllerBase
             result.Value
         );
     }
+    
+    [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> DeletePost(DeletePostCommand command)
+    {
+        await mediator.Send(command);
+
+        return Ok();
+    }
+
 }

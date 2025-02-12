@@ -23,3 +23,11 @@ Content-Type: application/json
 {
   "content": ""
 }
+
+### Delete post
+DELETE {{baseUrl}}/post
+Content-Type: application/json
+
+{
+  "Id": "f8f552a3-9873-4c0b-e2e7-08dd4acdee36"
+}
