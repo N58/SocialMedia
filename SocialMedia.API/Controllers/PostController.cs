@@ -3,9 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.API.Responses.Post;
 using SocialMedia.Application.Commands.CreatePost;
-using SocialMedia.Application.Queries.GetPost;
 using SocialMedia.Application.Commands.DeletePost;
-using SocialMedia.Application.Extensions;
+using SocialMedia.Application.Queries.GetPost;
 
 namespace SocialMedia.API.Controllers;
 
@@ -37,7 +36,7 @@ public class PostController(IMediator mediator, IMapper mapper) : ControllerBase
         var response = mapper.Map<PostResponse>(result.Value);
         return Ok(response);
     }
-    
+
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -47,5 +46,4 @@ public class PostController(IMediator mediator, IMapper mapper) : ControllerBase
 
         return Ok();
     }
-
 }
