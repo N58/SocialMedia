@@ -22,8 +22,4 @@
         <ProjectReference Include="..\SocialMedia.ServiceDefaults\SocialMedia.ServiceDefaults.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Responses\"/>
-    </ItemGroup>
-
 </Project>

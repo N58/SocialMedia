@@ -7,19 +7,19 @@ namespace SocialMedia.Infrastructure.Repositories;
 internal abstract class BaseRepository<TBaseEntity>(DbContext dbContext)
     : IBaseRepository<TBaseEntity> where TBaseEntity : BaseEntity
 {
-    public async Task<TBaseEntity?> GetByIdAsync(Guid id)
+    public async Task<TBaseEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await dbContext.Set<TBaseEntity>().FirstOrDefaultAsync(x => x.Id == id);
+        return await dbContext.Set<TBaseEntity>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public async Task<IReadOnlyCollection<TBaseEntity>> GetAllAsync()
+    public async Task<IReadOnlyCollection<TBaseEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await dbContext.Set<TBaseEntity>().ToListAsync();
+        return await dbContext.Set<TBaseEntity>().ToListAsync(cancellationToken);
     }
 
-    public async Task AddAsync(TBaseEntity entity)
+    public async Task AddAsync(TBaseEntity entity, CancellationToken cancellationToken = default)
     {
-        await dbContext.AddAsync(entity);
+        await dbContext.AddAsync(entity, cancellationToken);
     }
 
     public async Task UpdateAsync(TBaseEntity entity)
@@ -28,13 +28,13 @@ internal abstract class BaseRepository<TBaseEntity>(DbContext dbContext)
         dbContext.Set<TBaseEntity>().Update(entity);
     }
 
-    public async Task DeleteAsync(TBaseEntity entity)
+    public async Task DeleteAsync(TBaseEntity entity, CancellationToken cancellationToken = default)
     {
-        await dbContext.Set<TBaseEntity>().Where(x => x.Id == entity.Id).ExecuteDeleteAsync();
+        await dbContext.Set<TBaseEntity>().Where(x => x.Id == entity.Id).ExecuteDeleteAsync(cancellationToken);
     }
 
-    public async Task SaveChangesAsync()
+    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }
