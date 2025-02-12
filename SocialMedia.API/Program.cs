@@ -7,7 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
-builder.Services.AddMediatR(config => { config.AddOpenBehavior(typeof(ValidationBehavior<,>)); });
+builder.Services.AddMediatR(config =>
+{
+    config.RegisterServicesFromAssembly(typeof(DiConfig).Assembly);
+    config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+});
 
 builder.Services.AddCors(options =>
 {
