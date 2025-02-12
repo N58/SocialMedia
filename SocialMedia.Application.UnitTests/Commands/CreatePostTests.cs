@@ -3,10 +3,9 @@ using FluentValidation.TestHelper;
 using Moq;
 using SocialMedia.Application.Commands.CreatePost;
 using SocialMedia.Application.Interfaces;
-using SocialMedia.Domain.Constants;
 using SocialMedia.Domain.Entities;
 
-namespace SocialMedia.UnitTests;
+namespace SocialMedia.UnitTests.Commands;
 
 public class CreatePostTests
 {

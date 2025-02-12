@@ -5,7 +5,7 @@ using SocialMedia.Application.Queries.GetPost;
 using SocialMedia.Domain.Constants;
 using SocialMedia.Domain.Entities;
 
-namespace SocialMedia.UnitTests.GetPost;
+namespace SocialMedia.UnitTests.Queries;
 
 public class GetPostTests
 {
@@ -22,11 +22,11 @@ public class GetPostTests
     };
 
     [Fact]
-    public void QueryValidator_EmptyGuid_ReturnsFail()
+    public async Task QueryValidator_EmptyGuid_ReturnsFail()
     {
         var query = new GetPostQuery(Guid.Empty);
 
-        var result = _validator.TestValidate(query);
+        var result = await _validator.TestValidateAsync(query);
         
         result.ShouldHaveValidationErrorFor(x => x.Id);
     }
@@ -36,8 +36,9 @@ public class GetPostTests
     {
         var query = new GetPostQuery(_incorrectGuid);
         var queryHandler = new GetPostQueryHandler(_postRepositoryMock.Object);
-        _postRepositoryMock.Setup(x =>
-            x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
+        _postRepositoryMock
+            .Setup(x =>
+                x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_postMock);
 
         var result = await queryHandler.Handle(query, CancellationToken.None);
@@ -53,7 +54,8 @@ public class GetPostTests
     {
         var query = new GetPostQuery(_correctGuid);
         var queryHandler = new GetPostQueryHandler(_postRepositoryMock.Object);
-        _postRepositoryMock.Setup(x =>
+        _postRepositoryMock
+            .Setup(x =>
                 x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_postMock);
 
