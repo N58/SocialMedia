@@ -1,8 +1,7 @@
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SocialMedia.Application.Validation;
+namespace SocialMedia.API.Validation;
 
 public sealed class ValidationExceptionHandlingMiddleware(RequestDelegate next)
 {

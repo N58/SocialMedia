@@ -7,7 +7,7 @@ public abstract class BaseEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
 
     public required DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.Now;
     public required DateTimeOffset? UpdatedDate { get; set; }

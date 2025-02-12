@@ -1,4 +1,4 @@
-using SocialMedia.API;
+using SocialMedia.API.Validation;
 using SocialMedia.DI;
 using SocialMedia.ServiceDefaults;
 
@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+builder.Services.AddMediatR(config => { config.AddOpenBehavior(typeof(ValidationBehavior<,>)); });
 
 builder.Services.AddCors(options =>
 {
@@ -23,7 +24,7 @@ DiConfig.ConfigureServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
-SocialMedia.DI.DiConfig.Configure(app, app.Environment);
+app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
 

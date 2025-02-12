@@ -1,7 +1,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace SocialMedia.Application.Validation;
+namespace SocialMedia.API.Validation;
 
 public class ValidationBehavior<TRequest, TResponse>(IValidator<TRequest> validator)
     : IPipelineBehavior<TRequest, TResponse>

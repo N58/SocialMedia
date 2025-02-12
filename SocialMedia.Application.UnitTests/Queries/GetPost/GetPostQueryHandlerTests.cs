@@ -1,36 +1,29 @@
-using FluentValidation.TestHelper;
 using Moq;
 using SocialMedia.Application.Interfaces;
 using SocialMedia.Application.Queries.GetPost;
 using SocialMedia.Domain.Constants;
 using SocialMedia.Domain.Entities;
 
-namespace SocialMedia.UnitTests.Queries;
+namespace SocialMedia.UnitTests.Queries.GetPost;
 
-public class GetPostTests
+public class GetPostQueryHandlerTests
 {
-    private readonly Mock<IPostRepository> _postRepositoryMock = new();
-    private readonly GetPostQueryValidator _validator = new();
-    
     private readonly Guid _correctGuid = Guid.NewGuid();
     private readonly Guid _incorrectGuid = Guid.NewGuid();
-    private readonly Post _postMock = new()
-    {
-        Content = "post data",
-        CreatedDate = default,
-        UpdatedDate = null
-    };
+    private readonly Post _postMock;
+    private readonly Mock<IPostRepository> _postRepositoryMock = new();
 
-    [Fact]
-    public async Task QueryValidator_EmptyGuid_ReturnsFail()
+    public GetPostQueryHandlerTests()
     {
-        var query = new GetPostQuery(Guid.Empty);
-
-        var result = await _validator.TestValidateAsync(query);
-        
-        result.ShouldHaveValidationErrorFor(x => x.Id);
+        _postMock = new Post
+        {
+            Id = _correctGuid,
+            Content = "post data",
+            CreatedDate = default,
+            UpdatedDate = null
+        };
     }
-    
+
     [Fact]
     public async Task Handle_NotExistingPost_ReturnsFail()
     {
@@ -42,8 +35,8 @@ public class GetPostTests
             .ReturnsAsync(_postMock);
 
         var result = await queryHandler.Handle(query, CancellationToken.None);
-        
-        _postRepositoryMock.Verify(x => 
+
+        _postRepositoryMock.Verify(x =>
             x.GetByIdAsync(_incorrectGuid, It.IsAny<CancellationToken>()), Times.Once);
         Assert.True(result.IsFailed);
         Assert.True(result.HasError(x => x.Message == Errors.Post.NoPostWithGivenId.Message));
@@ -60,8 +53,8 @@ public class GetPostTests
             .ReturnsAsync(_postMock);
 
         var result = await queryHandler.Handle(query, CancellationToken.None);
-        
-        _postRepositoryMock.Verify(x => 
+
+        _postRepositoryMock.Verify(x =>
             x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()), Times.Once);
         Assert.True(result.IsSuccess);
         Assert.Equivalent(_postMock, result.Value);
