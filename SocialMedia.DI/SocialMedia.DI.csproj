@@ -10,7 +10,9 @@
     <ItemGroup>
         <ProjectReference Include="..\SocialMedia.Application\SocialMedia.Application.csproj"/>
         <ProjectReference Include="..\SocialMedia.Domain\SocialMedia.Domain.csproj"/>
-        <ProjectReference Include="..\SocialMedia.Infrastructure\SocialMedia.Infrastructure.csproj" PrivateAssets="All"/>
+        <ProjectReference Include="..\SocialMedia.Infrastructure\SocialMedia.Infrastructure.csproj">
+            <ExcludeAssets>compile</ExcludeAssets>
+        </ProjectReference>
     </ItemGroup>
 
 </Project>
