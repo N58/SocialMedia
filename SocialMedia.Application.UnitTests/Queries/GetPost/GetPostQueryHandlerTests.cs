@@ -1,4 +1,5 @@
 using Moq;
+using Shouldly;
 using SocialMedia.Application.Interfaces;
 using SocialMedia.Application.Queries.GetPost;
 using SocialMedia.Domain.Constants;
@@ -38,8 +39,8 @@ public class GetPostQueryHandlerTests
 
         _postRepositoryMock.Verify(x =>
             x.GetByIdAsync(_incorrectGuid, It.IsAny<CancellationToken>()), Times.Once);
-        Assert.True(result.IsFailed);
-        Assert.True(result.HasError(x => x.Message == Errors.Post.NoPostWithGivenId.Message));
+        result.IsFailed.ShouldBeTrue();
+        result.HasError(x => x.Message == Errors.Post.NoPostWithGivenId.Message).ShouldBeTrue();
     }
 
     [Fact]
@@ -56,7 +57,7 @@ public class GetPostQueryHandlerTests
 
         _postRepositoryMock.Verify(x =>
             x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()), Times.Once);
-        Assert.True(result.IsSuccess);
-        Assert.Equivalent(_postMock, result.Value);
+        result.IsSuccess.ShouldBeTrue();
+        _postMock.ShouldBeEquivalentTo(result.Value);
     }
 }

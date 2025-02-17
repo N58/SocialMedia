@@ -1,5 +1,6 @@
 using AutoMapper;
 using Moq;
+using Shouldly;
 using SocialMedia.Application.Commands.CreatePost;
 using SocialMedia.Application.Interfaces;
 using SocialMedia.Domain.Entities;
@@ -27,8 +28,9 @@ public class CreatePostCommandHandlerTests
             .Setup(x =>
                 x.AddAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()));
 
-        await handler.Handle(command, default);
+        var result = await handler.Handle(command, default);
 
+        result.IsSuccess.ShouldBeTrue();
         _postRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()), Times.Once);
         _postRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }

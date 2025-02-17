@@ -34,6 +34,22 @@ Content-Type: application/json
 GET {{baseUrl}}/post/{{postBadId}}
 Content-Type: application/json
 
+### Get all posts paged
+@page = 2
+@size = 2
+GET {{baseUrl}}/post?page={{page}}&size={{size}}
+Content-Type: application/json
+
+### Update post
+@postUpdateId = 83fd4139-b443-4f20-5f17-08dd47a9dd59
+PUT {{baseUrl}}/post/{{postUpdateId}}
+Content-Type: application/json
+
+{
+  "id": "{{postUpdateId}}",
+  "content": "test 2"
+}
+
 ### Delete post
 DELETE {{baseUrl}}/post
 Content-Type: application/json

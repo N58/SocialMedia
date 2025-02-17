@@ -1,6 +1,8 @@
 using Moq;
+using Shouldly;
 using SocialMedia.Application.Commands.DeletePost;
 using SocialMedia.Application.Interfaces;
+using SocialMedia.Domain.Constants;
 using SocialMedia.Domain.Entities;
 
 namespace SocialMedia.UnitTests.Commands.DeletePost;
@@ -33,15 +35,15 @@ public class DeletePostCommandHandlerTests
                 x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_postMock);
 
-        var result = await handler.Handle(command, default);
+        var result = await handler.Handle(command);
 
-        Assert.NotEqual(_correctGuid, _incorrectGuid);
+        _correctGuid.ShouldNotBe(_incorrectGuid);
         _postRepositoryMock.Verify(x =>
             x.GetByIdAsync(_incorrectGuid, It.IsAny<CancellationToken>()), Times.Once);
         _postRepositoryMock.Verify(x =>
             x.DeleteAsync(_postMock, It.IsAny<CancellationToken>()), Times.Never);
-        Assert.True(result.IsFailed);
-        Assert.True(result.HasError(x => x.Message == "")); // TODO SET THE ERROR MESSAGE
+        result.IsFailed.ShouldBeTrue();
+        result.HasError(x => x.Message == Errors.Post.NoPostWithGivenId.Message).ShouldBeTrue();
     }
 
     [Fact]
@@ -54,12 +56,12 @@ public class DeletePostCommandHandlerTests
                 x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_postMock);
 
-        var result = await handler.Handle(command, default);
+        var result = await handler.Handle(command);
 
         _postRepositoryMock.Verify(x =>
             x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()), Times.Once);
         _postRepositoryMock.Verify(x =>
             x.DeleteAsync(_postMock, It.IsAny<CancellationToken>()), Times.Once);
-        Assert.True(result.IsSuccess);
+        result.IsSuccess.ShouldBeTrue();
     }
 }

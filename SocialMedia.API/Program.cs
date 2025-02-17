@@ -1,3 +1,4 @@
+using SocialMedia.API.Profiles;
 using SocialMedia.API.Validation;
 using SocialMedia.DI;
 using SocialMedia.ServiceDefaults;
@@ -12,6 +13,7 @@ builder.Services.AddMediatR(config =>
     config.RegisterServicesFromAssembly(typeof(DiConfig).Assembly);
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
+builder.Services.AddAutoMapper(typeof(ResponseProfile));
 
 builder.Services.AddCors(options =>
 {

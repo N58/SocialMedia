@@ -1,4 +1,5 @@
 using AutoMapper;
+using Shouldly;
 using SocialMedia.Application.Commands.CreatePost;
 using SocialMedia.Domain.Entities;
 
@@ -23,6 +24,6 @@ public class CreatePostProfileTests
 
         var post = _mapper.Map<Post>(command);
 
-        Assert.Equal(initContent, post.Content);
+        initContent.ShouldBeEquivalentTo(post.Content);
     }
 }
