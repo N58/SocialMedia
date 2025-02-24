@@ -28,7 +28,7 @@ public class CreatePostCommandHandlerTests
             .Setup(x =>
                 x.AddAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()));
 
-        var result = await handler.Handle(command, default);
+        var result = await handler.Handle(command, CancellationToken.None);
 
         result.IsSuccess.ShouldBeTrue();
         _postRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()), Times.Once);

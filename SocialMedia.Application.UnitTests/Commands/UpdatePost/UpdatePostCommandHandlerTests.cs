@@ -39,7 +39,7 @@ public class UpdatePostCommandHandlerTests
                 x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_postMock);
 
-        var result = await handler.Handle(command, default);
+        var result = await handler.Handle(command, CancellationToken.None);
 
         result.IsFailed.ShouldBeTrue();
         _postRepositoryMock.Verify(x => x.GetByIdAsync(command.Id, It.IsAny<CancellationToken>()), Times.Once);
@@ -62,7 +62,7 @@ public class UpdatePostCommandHandlerTests
                 x.UpdateAsync(It.IsAny<Post>()))
             .Callback<Post>(post => capturedPost = post);
 
-        var result = await handler.Handle(command, default);
+        var result = await handler.Handle(command, CancellationToken.None);
 
         result.IsSuccess.ShouldBeTrue();
         _postRepositoryMock.Verify(x => x.GetByIdAsync(command.Id, It.IsAny<CancellationToken>()), Times.Once);
