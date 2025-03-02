@@ -1,9 +1,13 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SocialMedia.API.Responses;
 using SocialMedia.API.Responses.Post;
 using SocialMedia.Application.Commands.CreatePost;
+using SocialMedia.Application.Commands.DeletePost;
+using SocialMedia.Application.Commands.UpdatePost;
 using SocialMedia.Application.Queries.GetPost;
+using SocialMedia.Application.Queries.GetPostsPaged;
 
 namespace SocialMedia.API.Controllers;
 
@@ -34,5 +38,37 @@ public class PostController(IMediator mediator, IMapper mapper) : ControllerBase
 
         var response = mapper.Map<PostResponse>(result.Value);
         return Ok(response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(PagedResponse<PostResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<PostResponse>> GetPostsPaged([FromQuery] GetPostsPagedQuery query)
+    {
+        var result = await mediator.Send(query);
+
+        var response = mapper.Map<PagedResponse<PostResponse>>(result.Value);
+        return Ok(response);
+    }
+
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> UpdatePost(Guid id, UpdatePostCommand command)
+    {
+        command = command with { Id = id };
+        await mediator.Send(command);
+
+        return Ok();
+    }
+
+    [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> DeletePost(DeletePostCommand command)
+    {
+        await mediator.Send(command);
+
+        return Ok();
     }
 }

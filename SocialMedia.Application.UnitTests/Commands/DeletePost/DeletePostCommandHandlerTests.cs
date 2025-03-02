@@ -1,20 +1,20 @@
 using Moq;
 using Shouldly;
+using SocialMedia.Application.Commands.DeletePost;
 using SocialMedia.Application.Interfaces;
-using SocialMedia.Application.Queries.GetPost;
 using SocialMedia.Domain.Constants;
 using SocialMedia.Domain.Entities;
 
-namespace SocialMedia.UnitTests.Queries.GetPost;
+namespace SocialMedia.UnitTests.Commands.DeletePost;
 
-public class GetPostQueryHandlerTests
+public class DeletePostCommandHandlerTests
 {
     private readonly Guid _correctGuid = Guid.NewGuid();
     private readonly Guid _incorrectGuid = Guid.NewGuid();
     private readonly Post _postMock;
     private readonly Mock<IPostRepository> _postRepositoryMock = new();
 
-    public GetPostQueryHandlerTests()
+    public DeletePostCommandHandlerTests()
     {
         _postMock = new Post
         {
@@ -26,38 +26,42 @@ public class GetPostQueryHandlerTests
     }
 
     [Fact]
-    public async Task Handle_NotExistingPost_ReturnsFail()
+    public async Task Handle_IdNotExists_ReturnsFail()
     {
-        var query = new GetPostQuery(_incorrectGuid);
-        var queryHandler = new GetPostQueryHandler(_postRepositoryMock.Object);
+        var command = new DeletePostCommand(_incorrectGuid);
+        var handler = new DeletePostCommandHandler(_postRepositoryMock.Object);
         _postRepositoryMock
             .Setup(x =>
                 x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_postMock);
 
-        var result = await queryHandler.Handle(query, CancellationToken.None);
+        var result = await handler.Handle(command);
 
+        _correctGuid.ShouldNotBe(_incorrectGuid);
         _postRepositoryMock.Verify(x =>
             x.GetByIdAsync(_incorrectGuid, It.IsAny<CancellationToken>()), Times.Once);
+        _postRepositoryMock.Verify(x =>
+            x.DeleteAsync(_postMock, It.IsAny<CancellationToken>()), Times.Never);
         result.IsFailed.ShouldBeTrue();
         result.HasError(x => x.Message == Errors.Post.NoPostWithGivenId.Message).ShouldBeTrue();
     }
 
     [Fact]
-    public async Task Handle_ExistingPost_ReturnsOk()
+    public async Task Handle_IdCorrect_ReturnsSuccess()
     {
-        var query = new GetPostQuery(_correctGuid);
-        var queryHandler = new GetPostQueryHandler(_postRepositoryMock.Object);
+        var command = new DeletePostCommand(_correctGuid);
+        var handler = new DeletePostCommandHandler(_postRepositoryMock.Object);
         _postRepositoryMock
             .Setup(x =>
                 x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_postMock);
 
-        var result = await queryHandler.Handle(query, CancellationToken.None);
+        var result = await handler.Handle(command);
 
         _postRepositoryMock.Verify(x =>
             x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()), Times.Once);
+        _postRepositoryMock.Verify(x =>
+            x.DeleteAsync(_postMock, It.IsAny<CancellationToken>()), Times.Once);
         result.IsSuccess.ShouldBeTrue();
-        _postMock.ShouldBeEquivalentTo(result.Value);
     }
 }
