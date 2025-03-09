@@ -70,7 +70,7 @@
             </Form.Control>
             <Form.FieldErrors />
           </Form.Field>
-          <Button {loading} class="mt-3">Send</Button>
+          <Button class="mt-3" {loading}>Send</Button>
         </form>
       </Dialog.Description>
     </Dialog.Header>

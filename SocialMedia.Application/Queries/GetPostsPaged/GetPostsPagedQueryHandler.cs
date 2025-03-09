@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using FluentResults;
 using MediatR;
 using SocialMedia.Application.Interfaces;
@@ -11,14 +12,17 @@ internal class GetPostsPagedQueryHandler(IPostRepository postRepository)
 {
     public async Task<Result<Paged<Post>>> Handle(GetPostsPagedQuery request, CancellationToken cancellationToken)
     {
-        var take = request.Size;
-        var skip = (request.Page - 1) * request.Size;
-        var posts = await postRepository.GetPagedAsync(skip, take, cancellationToken);
+        Expression<Func<Post, object>> orderBy = request.SortColumn?.ToLower() switch
+        {
+            "id" => p => p.Id,
+            "created" => p => p.CreatedDate,
+            "updated" => p => p.UpdatedDate ?? DateTimeOffset.MaxValue,
+            _ => p => p.Id
+        };
 
-        var count = await postRepository.CountAsync(cancellationToken);
+        var posts = await postRepository.GetPagedAsync(request.Page, request.Size, orderBy, request.SortOrder,
+            cancellationToken);
 
-        var paged = new Paged<Post>(posts, count, request.Size, request.Page);
-
-        return Result.Ok(paged);
+        return Result.Ok(posts);
     }
 }
