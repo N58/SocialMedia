@@ -2,7 +2,7 @@ import type { Actions, PageServerLoad } from "./$types";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { formSchema } from "$lib/schemas/postSchema.ts";
-import { fail, error } from "@sveltejs/kit";
+import { error, fail } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async ({ url, fetch }) => {
   let page = Number(url.searchParams.get("page"));
@@ -15,10 +15,13 @@ export const load: PageServerLoad = async ({ url, fetch }) => {
     size = 10;
   }
 
-  const response = await fetch(`/api/post?page=${page}&size=${size}`, {
-    method: "GET",
-    headers: { "content-type": "application/json" },
-  });
+  const response = await fetch(
+    `/api/post?page=${page}&size=${size}&sortColumn=Created&sortOrder=desc`,
+    {
+      method: "GET",
+      headers: { "content-type": "application/json" },
+    },
+  );
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 

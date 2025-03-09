@@ -11,9 +11,9 @@ public class Paged<T>
         TotalPages = (int)Math.Ceiling(TotalCount / (decimal)Size);
     }
 
-    public int TotalCount { get; set; }
-    public int Size { get; set; }
-    public int PageNumber { get; set; }
+    public int TotalCount { get; }
+    public int Size { get; }
+    public int PageNumber { get; }
     public int TotalPages { get; private set; }
-    public ICollection<T> Data { get; set; }
+    public ICollection<T> Data { get; }
 }
