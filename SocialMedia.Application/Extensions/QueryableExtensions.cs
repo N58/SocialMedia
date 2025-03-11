@@ -4,7 +4,7 @@ using SocialMedia.Domain.Common;
 
 namespace SocialMedia.Application.Extensions;
 
-public static class IQueryableExtensions
+public static class QueryableExtensions
 {
     public static async Task<Paged<T>> ToPagedAsync<T>(
         this IQueryable<T> query,
