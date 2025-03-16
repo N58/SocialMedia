@@ -11,22 +11,18 @@ public class SyncUserValidator : AbstractValidator<SyncUserCommand>
             .MaximumLength(255);
         RuleFor(user => user.GivenName)
             .NotEmpty()
-            .MinimumLength(1)
             .MaximumLength(100);
         RuleFor(user => user.FamilyName)
             .NotEmpty()
-            .MinimumLength(1)
             .MaximumLength(100);
         RuleFor(user => user.Email)
             .NotEmpty()
             .EmailAddress()
-            .MinimumLength(1)
             .MaximumLength(255);
         RuleFor(user => user.Image)
             .NotEmpty()
-            .Must(i => Uri.TryCreate(i, UriKind.Absolute, out _))
-            .When(i => !string.IsNullOrEmpty(i.Image))
-            .MinimumLength(1)
+            .Must(i => Uri.TryCreate(i, UriKind.Absolute, out var uri) &&
+                       (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
             .MaximumLength(1000);
     }
 }
