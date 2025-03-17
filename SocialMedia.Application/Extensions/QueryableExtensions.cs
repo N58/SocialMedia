@@ -12,13 +12,13 @@ public static class QueryableExtensions
         int size,
         CancellationToken cancellationToken = default) where T : class
     {
-        var count = await query.CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
         var items = await query
             .Skip((page - 1) * size)
             .Take(size)
             .ToListAsync(cancellationToken);
 
-        return new Paged<T>(items, count, size, page);
+        return new Paged<T>(items, totalCount, page, size);
     }
 
     public static IQueryable<T> ApplyOrdering<T>(
