@@ -1,7 +1,8 @@
 interface Paged<T> {
+  count: number;
   totalCount: number;
-  size: number;
-  pageNumber: number;
   totalPages: number;
+  page: number;
+  size: number;
   data: T[];
 }

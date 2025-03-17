@@ -23,7 +23,7 @@
         Settings
       </DropdownMenu.Item>
       <DropdownMenu.Item class="w-full" onclick={() => signOut()}>
-        <LogOut /> Sign Out
+        <LogOut /> Sign out
       </DropdownMenu.Item>
     </DropdownMenu.Group>
   </DropdownMenu.Group>

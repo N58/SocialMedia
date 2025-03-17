@@ -6,14 +6,13 @@
   import { formSchema } from "$lib/schemas/postSchema";
   import * as Form from "$lib/components/ui/form/index";
   import { Textarea } from "$lib/components/ui/textarea/index";
-  import * as Card from "$lib/components/ui/card/index";
-  import Button from "$lib/components/c-button.svelte";
-  import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog/index";
+  import { buttonVariants } from "$lib/components/ui/button";
   import { SquarePlus } from "lucide-svelte";
   import { invalidateAll } from "$app/navigation";
+  import FormButton from "$lib/components/FormButton.svelte";
 
-  let { data: data = page.data.textarea } = $props();
+  let { data = page.data.textarea, isAuthorized = false } = $props();
 
   let loading = $state(false);
   let open = $state(false);
@@ -47,32 +46,35 @@
   const { form: formData, enhance } = form;
 </script>
 
-<Dialog.Root bind:open>
-  <Dialog.Trigger class={buttonVariants({ variant: "default" })}
-    ><SquarePlus />New Post</Dialog.Trigger
-  >
-  <Dialog.Content>
-    <Dialog.Header>
-      <Dialog.Title>New Post</Dialog.Title>
-      <Dialog.Description>
-        <form method="POST" action="?/addPost" use:enhance>
-          <Form.Field {form} name="content">
-            <Form.Control>
-              {#snippet children({ props })}
-                <Form.Label>Content</Form.Label>
-                <Textarea
-                  {...props}
-                  placeholder="Write text..."
-                  class="resize-none"
-                  bind:value={$formData.content}
-                />
-              {/snippet}
-            </Form.Control>
-            <Form.FieldErrors />
-          </Form.Field>
-          <Button class="mt-3" {loading}>Send</Button>
-        </form>
-      </Dialog.Description>
-    </Dialog.Header>
-  </Dialog.Content>
-</Dialog.Root>
+<div class="grid grid-cols-5 gap-2">
+  <Dialog.Root bind:open>
+    <Dialog.Trigger class={buttonVariants({ variant: "default" })}>
+      <SquarePlus />
+      <span>New Post</span>
+    </Dialog.Trigger>
+    <Dialog.Content>
+      <Dialog.Header>
+        <Dialog.Title>New Post</Dialog.Title>
+        <Dialog.Description>
+          <form method="POST" action="?/addPost" use:enhance>
+            <Form.Field {form} name="content">
+              <Form.Control>
+                {#snippet children({ props })}
+                  <Form.Label>Content</Form.Label>
+                  <Textarea
+                    {...props}
+                    placeholder="Write text..."
+                    class="resize-none"
+                    bind:value={$formData.content}
+                  />
+                {/snippet}
+              </Form.Control>
+              <Form.FieldErrors />
+            </Form.Field>
+            <FormButton class="mt-3" {loading}>Send</FormButton>
+          </form>
+        </Dialog.Description>
+      </Dialog.Header>
+    </Dialog.Content>
+  </Dialog.Root>
+</div>
