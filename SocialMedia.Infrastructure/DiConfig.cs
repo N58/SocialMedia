@@ -15,5 +15,6 @@ public static class DiConfig
             options.UseSqlServer(dbConnectionString));
 
         services.AddScoped<IPostRepository, PostRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 }

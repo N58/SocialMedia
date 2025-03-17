@@ -7,8 +7,17 @@ public class UpdatePostValidatorTests
 {
     private readonly UpdatePostValidator _validator = new();
 
+    public static IEnumerable<object[]> InvalidContentData =>
+        new List<object[]>
+        {
+            new object[] { " " },
+            new object[] { "" },
+            new object[] { new string('a', 2) },
+            new object[] { new string('a', 1001) }
+        };
+
     [Fact]
-    public async Task QueryValidator_EmptyGuid_ReturnsFail()
+    public async Task IdValidator_EmptyGuid_ShouldHaveValidationError()
     {
         var command = new UpdatePostCommand(Guid.Empty, "test test");
 
@@ -18,10 +27,8 @@ public class UpdatePostValidatorTests
     }
 
     [Theory]
-    [InlineData(" ")]
-    [InlineData("")]
-    [InlineData(null)]
-    public async Task ContentValidator_ContentIsEmpty_ReturnsFail(string content)
+    [MemberData(nameof(InvalidContentData))]
+    public async Task ContentValidator_InvalidContent_ShouldHaveValidationError(string content)
     {
         var command = new UpdatePostCommand(Guid.NewGuid(), content);
 
@@ -30,35 +37,17 @@ public class UpdatePostValidatorTests
         result.ShouldHaveValidationErrorFor(c => c.Content);
     }
 
-    [Fact]
-    public async Task ContentValidator_ContentHasMinimumLength_ReturnsFail()
+    [Theory]
+    [InlineData(3)]
+    [InlineData(500)]
+    [InlineData(1000)]
+    public async Task ContentValidator_ValidContent_ShouldNotHaveValidationError(int length)
     {
-        var content = new string('a', 2);
+        var content = new string('a', length);
         var command = new UpdatePostCommand(Guid.NewGuid(), content);
 
         var result = await _validator.TestValidateAsync(command);
 
-        result.ShouldHaveValidationErrorFor(c => c.Content);
-    }
-
-    [Fact]
-    public async Task ContentValidator_ContentExceedsMaxLength_ReturnsFail()
-    {
-        var content = new string('a', 1001);
-        var command = new UpdatePostCommand(Guid.NewGuid(), content);
-
-        var result = await _validator.TestValidateAsync(command);
-
-        result.ShouldHaveValidationErrorFor(c => c.Content);
-    }
-
-    [Fact]
-    public async Task ContentValidator_ContentIsValid_ReturnsOk()
-    {
-        var content = new string('a', 1000);
-        var command = new UpdatePostCommand(Guid.NewGuid(), content);
-
-        var result = await _validator.TestValidateAsync(command);
         result.ShouldNotHaveValidationErrorFor(c => c.Content);
     }
 }
