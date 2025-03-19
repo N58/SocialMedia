@@ -77,7 +77,7 @@ public class SyncUserValidatorTests
 
         var result = await _validator.TestValidateAsync(command);
 
-        result.ShouldHaveValidationErrorFor(c => c.Uid);
+        result.ShouldHaveValidationErrorFor(c => c.Id);
     }
 
     [Theory]

@@ -39,7 +39,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth(async (event) => {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({
-              Uid: message.user.uid,
+              Id: message.user.uid,
               GivenName: message.user.given_name,
               FamilyName: message.user.family_name,
               Email: message.user.email,
