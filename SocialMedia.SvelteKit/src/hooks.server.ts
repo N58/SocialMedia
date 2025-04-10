@@ -13,7 +13,5 @@ export const handle: Handle = async ({ event, resolve }) => {
     event.locals.user = null;
   }
 
-  console.log(event.locals.user);
-
   return resolve(event);
 };
