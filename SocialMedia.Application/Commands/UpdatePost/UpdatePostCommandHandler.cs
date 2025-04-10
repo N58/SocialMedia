@@ -10,8 +10,7 @@ namespace SocialMedia.Application.Commands.UpdatePost;
 
 public class UpdatePostCommandHandler(
     IPostRepository postRepository,
-    IMapper mapper,
-    CurrentUserService currentUserService)
+    IMapper mapper)
     : IRequestHandler<UpdatePostCommand, Result>
 {
     public async Task<Result> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
@@ -21,7 +20,7 @@ public class UpdatePostCommandHandler(
         if (postInDb == null)
             return Result.Fail(Errors.Post.NoPostWithGivenId);
 
-        if (postInDb.AuthorId != currentUserService.User.Id)
+        if (postInDb.AuthorId != request.AuthorId)
             return Result.Fail(Errors.Post.UserIsNotAuthor);
 
         var post = mapper.Map<Post>(request);

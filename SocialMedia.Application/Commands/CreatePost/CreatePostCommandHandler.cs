@@ -9,14 +9,12 @@ namespace SocialMedia.Application.Commands.CreatePost;
 
 internal class CreatePostCommandHandler(
     IPostRepository postRepository,
-    IMapper mapper,
-    CurrentUserService currentUserService)
+    IMapper mapper)
     : IRequestHandler<CreatePostCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreatePostCommand command, CancellationToken cancellationToken)
     {
         var post = mapper.Map<Post>(command);
-        post.AuthorId = currentUserService.User.Id;
 
         await postRepository.AddAsync(post, cancellationToken);
         await postRepository.SaveChangesAsync(cancellationToken);

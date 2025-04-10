@@ -2,6 +2,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.API.Attributes;
+using SocialMedia.API.Requests;
 using SocialMedia.API.Responses;
 using SocialMedia.API.Responses.Post;
 using SocialMedia.Application.Commands.CreatePost;
@@ -9,19 +10,22 @@ using SocialMedia.Application.Commands.DeletePost;
 using SocialMedia.Application.Commands.UpdatePost;
 using SocialMedia.Application.Queries.GetPost;
 using SocialMedia.Application.Queries.GetPostsPaged;
+using SocialMedia.Application.Services;
 
 namespace SocialMedia.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class PostController(IMediator mediator, IMapper mapper) : ControllerBase
+public class PostController(IMediator mediator, IMapper mapper, CurrentUserService currentUserService) : ControllerBase
 {
     [RequireAuthenticated]
     [HttpPost]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Guid>> CreatePost(CreatePostCommand command)
+    public async Task<ActionResult<Guid>> CreatePost(CreatePostRequest request)
     {
+        var command = mapper.Map<CreatePostCommand>(request);
+        command.AuthorId = currentUserService.User.Id;
         var result = await mediator.Send(command);
 
         return CreatedAtAction(
@@ -57,9 +61,11 @@ public class PostController(IMediator mediator, IMapper mapper) : ControllerBase
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> UpdatePost(Guid id, UpdatePostCommand command)
+    public async Task<ActionResult> UpdatePost(Guid id, UpdatePostRequest request)
     {
-        command = command with { Id = id };
+        request = request with { Id = id };
+        var command = mapper.Map<UpdatePostCommand>(request);
+        command.AuthorId = currentUserService.User.Id;
         await mediator.Send(command);
 
         return Ok();
@@ -69,8 +75,10 @@ public class PostController(IMediator mediator, IMapper mapper) : ControllerBase
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> DeletePost(DeletePostCommand command)
+    public async Task<ActionResult> DeletePost(DeletePostRequest request)
     {
+        var command = mapper.Map<DeletePostCommand>(request);
+        command.AuthorId = currentUserService.User.Id;
         await mediator.Send(command);
 
         return Ok();

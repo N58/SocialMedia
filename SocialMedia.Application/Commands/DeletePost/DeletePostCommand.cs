@@ -3,4 +3,8 @@ using MediatR;
 
 namespace SocialMedia.Application.Commands.DeletePost;
 
-public record DeletePostCommand(Guid Id) : IRequest<Result>;
+public class DeletePostCommand : IRequest<Result>
+{
+    public required Guid Id { get; set; }
+    public required string AuthorId { get; set; }
+}

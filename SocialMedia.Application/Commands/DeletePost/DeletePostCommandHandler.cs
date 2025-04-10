@@ -6,7 +6,7 @@ using SocialMedia.Domain.Constants;
 
 namespace SocialMedia.Application.Commands.DeletePost;
 
-internal class DeletePostCommandHandler(IPostRepository postRepository, CurrentUserService currentUserService)
+internal class DeletePostCommandHandler(IPostRepository postRepository)
     : IRequestHandler<DeletePostCommand, Result>
 {
     public async Task<Result> Handle(DeletePostCommand request, CancellationToken cancellationToken = default)
@@ -16,7 +16,7 @@ internal class DeletePostCommandHandler(IPostRepository postRepository, CurrentU
         if (post == null)
             return Result.Fail(Errors.Post.NoPostWithGivenId);
 
-        if (post.AuthorId != currentUserService.User.Id)
+        if (post.AuthorId != request.AuthorId)
             return Result.Fail(Errors.Post.UserIsNotAuthor);
 
         await postRepository.DeleteAsync(post, cancellationToken);

@@ -3,4 +3,9 @@ using MediatR;
 
 namespace SocialMedia.Application.Commands.UpdatePost;
 
-public record UpdatePostCommand(Guid Id, string Content) : IRequest<Result>;
+public class UpdatePostCommand : IRequest<Result>
+{
+    public required Guid Id { get; set; }
+    public required string Content { get; set; }
+    public required string AuthorId { get; set; }
+}
