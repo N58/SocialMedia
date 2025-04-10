@@ -1,30 +1,33 @@
-<script>
-  import { LogOut, Settings, User } from "lucide-svelte";
+<script lang="ts">
+  import { LogOut, Settings, User as UserIcon } from "lucide-svelte";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
-  import { signOut } from "@auth/sveltekit/client";
+  import type { User } from "$lib/models/User.ts";
 
-  let { session } = $props();
+  let { user }: { user: User | null } = $props();
 </script>
 
 <DropdownMenu.Content class="w-48">
   <DropdownMenu.Group>
     <DropdownMenu.GroupHeading>
-      {session?.user.given_name}
-      {session?.user.family_name}
+      {user?.fullName()}
     </DropdownMenu.GroupHeading>
     <DropdownMenu.Separator />
     <DropdownMenu.Group>
       <DropdownMenu.Item>
-        <User />
+        <UserIcon />
         Profile
       </DropdownMenu.Item>
       <DropdownMenu.Item>
         <Settings />
         Settings
       </DropdownMenu.Item>
-      <DropdownMenu.Item class="w-full" onclick={() => signOut()}>
-        <LogOut /> Sign out
-      </DropdownMenu.Item>
+      <form method="POST" action="/auth/logout">
+        <button type="submit" class="w-full">
+          <DropdownMenu.Item>
+            <LogOut /> Sign out
+          </DropdownMenu.Item>
+        </button>
+      </form>
     </DropdownMenu.Group>
   </DropdownMenu.Group>
 </DropdownMenu.Content>

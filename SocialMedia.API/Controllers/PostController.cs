@@ -2,6 +2,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SocialMedia.API.Attributes;
 using SocialMedia.API.Responses;
 using SocialMedia.API.Responses.Post;
 using SocialMedia.Application.Commands.CreatePost;
@@ -16,6 +17,7 @@ namespace SocialMedia.API.Controllers;
 [Route("[controller]")]
 public class PostController(IMediator mediator, IMapper mapper) : ControllerBase
 {
+    [RequireAuthenticated]
     [HttpPost]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -52,6 +54,7 @@ public class PostController(IMediator mediator, IMapper mapper) : ControllerBase
         return Ok(response);
     }
 
+    [RequireAuthenticated]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -63,6 +66,7 @@ public class PostController(IMediator mediator, IMapper mapper) : ControllerBase
         return Ok();
     }
 
+    [RequireAuthenticated]
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

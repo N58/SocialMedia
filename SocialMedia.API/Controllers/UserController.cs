@@ -1,19 +1,24 @@
-using MediatR;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using SocialMedia.Application.Commands.SyncUser;
+using SocialMedia.API.Attributes;
+using SocialMedia.API.Responses.User;
+using SocialMedia.Application.Services;
+using SocialMedia.Domain.Entities;
 
 namespace SocialMedia.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController(IMediator mediator) : ControllerBase
+public class UserController(IMapper mapper, CurrentUserService currentUserService) : ControllerBase
 {
-    [HttpPost("SyncUser")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> SyncUser(SyncUserCommand command)
+    [RequireAuthenticated]
+    [HttpGet("me")]
+    [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> Me()
     {
-        await mediator.Send(command);
-        return Ok();
+        var user = currentUserService.User;
+        var responseUser = mapper.Map<UserResponse>(user);
+        return Ok(responseUser);
     }
 }

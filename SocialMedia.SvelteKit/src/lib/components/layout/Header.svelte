@@ -1,13 +1,11 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
   import LogosGoogleIcon from "~icons/logos/google-icon";
-  import { buttonVariants } from "$lib/components/ui/button";
-  import { SignIn } from "@auth/sveltekit/components";
   import AvatarDropdownMenuContent from "$lib/components/user/AvatarDropdownMenuContent.svelte";
   import AvatarUi from "$lib/components/user/AvatarUI.svelte";
   import AvatarDropdown from "$lib/components/user/AvatarDropdown.svelte";
-
-  let { session } = $props();
+  import FormButton from "$lib/components/FormButton.svelte";
+  import { currentUser } from "$lib/stores/currentUser.svelte.ts";
 </script>
 
 <header
@@ -18,20 +16,17 @@
       <Button variant="ghost">Home</Button>
     </div>
     <div class="flex flex-1 items-center justify-end">
-      {#if !session?.user?.email}
-        <SignIn>
-          <div
-            slot="submitButton"
-            class={buttonVariants({ variant: "default" })}
-          >
+      {#if currentUser.isAuthenticated}
+        <AvatarDropdown user={currentUser.user}>
+          <AvatarDropdownMenuContent user={currentUser.user} />
+        </AvatarDropdown>
+      {:else}
+        <form method="POST" action="/auth/login">
+          <Button type="submit">
             <LogosGoogleIcon />
             Sign In
-          </div>
-        </SignIn>
-      {:else}
-        <AvatarDropdown {session}>
-          <AvatarDropdownMenuContent {session} />
-        </AvatarDropdown>
+          </Button>
+        </form>
       {/if}
     </div>
   </div>

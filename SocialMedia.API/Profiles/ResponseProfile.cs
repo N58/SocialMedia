@@ -1,6 +1,7 @@
 using AutoMapper;
 using SocialMedia.API.Responses;
 using SocialMedia.API.Responses.Post;
+using SocialMedia.API.Responses.User;
 using SocialMedia.Domain.Common;
 using SocialMedia.Domain.Entities;
 
@@ -12,5 +13,6 @@ public class ResponseProfile : Profile
     {
         CreateMap<Post, PostResponse>();
         CreateMap(typeof(Paged<>), typeof(PagedResponse<>));
+        CreateMap<User, UserResponse>();
     }
 }
