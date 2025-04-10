@@ -10,8 +10,7 @@ namespace SocialMedia.UnitTests.Queries.GetPostsPaged;
 
 public class GetPostsPagedQueryHandlerTests
 {
-    
-    private static readonly List<Post> PostsListMock = 
+    private static readonly List<Post> PostsListMock =
     [
         new()
         {
@@ -37,7 +36,7 @@ public class GetPostsPagedQueryHandlerTests
     ];
 
     private readonly Mock<IPostRepository> _postRepositoryMock = new();
-    
+
     // private int GetTotalPages(int size)
     // {
     //     return (int)Math.Ceiling(_postListMock.Count / (decimal)size);
@@ -51,7 +50,8 @@ public class GetPostsPagedQueryHandlerTests
     [InlineData(3, 3, "", "desc")]
     [InlineData(2, 5, "created", "asc")]
     [InlineData(2, 5, "updated", "desc")]
-    public async Task Handle_ExistingPostsPaged_ReturnsSuccess(int page, int size, string? orderBy = null, string? sortOrder = null)
+    public async Task Handle_ExistingPostsPaged_ReturnsSuccess(int page, int size, string? orderBy = null,
+        string? sortOrder = null)
     {
         Expression<Func<Post, object>> orderByPredicate = orderBy?.ToLower() switch
         {
@@ -60,20 +60,22 @@ public class GetPostsPagedQueryHandlerTests
             "updated" => p => p.UpdatedDate ?? DateTimeOffset.MaxValue,
             _ => p => p.Id
         };
-        
+
         var list = PostsListMock.OrderBy(orderByPredicate.Compile()).ToList();
         var correctResult = new Paged<Post>(list, list.Count, size, page);
         var query = new GetPostsPagedQuery(page, size, orderBy, sortOrder);
         var handler = new GetPostsPagedQueryHandler(_postRepositoryMock.Object);
         _postRepositoryMock
             .Setup(x =>
-                x.GetPagedAsync(page, size, It.IsAny<Expression<Func<Post, object>>>(), sortOrder, It.IsAny<CancellationToken>()))
+                x.GetPagedAsync(page, size, It.IsAny<Expression<Func<Post, object>>>(), sortOrder,
+                    It.IsAny<CancellationToken>()))
             .ReturnsAsync(correctResult);
 
         var result = await handler.Handle(query, CancellationToken.None);
 
         _postRepositoryMock.Verify(x =>
-            x.GetPagedAsync(page, size, It.IsAny<Expression<Func<Post, object>>>(), sortOrder, It.IsAny<CancellationToken>()), Times.Once);
+            x.GetPagedAsync(page, size, It.IsAny<Expression<Func<Post, object>>>(), sortOrder,
+                It.IsAny<CancellationToken>()), Times.Once);
         result.IsSuccess.ShouldBeTrue();
         result.Value.ShouldBeEquivalentTo(correctResult);
         // result.Value.TotalCount.ShouldBe(list.Count);

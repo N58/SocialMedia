@@ -6,7 +6,8 @@ using SocialMedia.Domain.Entities;
 
 namespace SocialMedia.Application.Queries.GetUserByUserId;
 
-internal class GetUserByUserIdQueryHandler(IUserRepository userRepository) : IRequestHandler<GetUserByUserIdQuery, Result<User>>
+internal class GetUserByUserIdQueryHandler(IUserRepository userRepository)
+    : IRequestHandler<GetUserByUserIdQuery, Result<User>>
 {
     public async Task<Result<User>> Handle(GetUserByUserIdQuery request, CancellationToken cancellationToken)
     {

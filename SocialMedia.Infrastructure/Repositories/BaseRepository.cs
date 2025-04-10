@@ -13,11 +13,6 @@ internal abstract class BaseRepository<TBaseEntity>(DbContext dbContext)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public async Task<ICollection<TBaseEntity>> GetAllAsync(CancellationToken cancellationToken = default)
-    {
-        return await dbContext.Set<TBaseEntity>().AsNoTracking().ToListAsync(cancellationToken);
-    }
-
     public async Task AddAsync(TBaseEntity entity, CancellationToken cancellationToken = default)
     {
         await dbContext.AddAsync(entity, cancellationToken);
@@ -37,5 +32,10 @@ internal abstract class BaseRepository<TBaseEntity>(DbContext dbContext)
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<ICollection<TBaseEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Set<TBaseEntity>().AsNoTracking().ToListAsync(cancellationToken);
     }
 }

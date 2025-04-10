@@ -10,9 +10,6 @@ public class RequireAuthenticatedAttribute : Attribute, IAuthorizationFilter
     {
         var user = context.HttpContext.User;
 
-        if (!user.Identity?.IsAuthenticated == true)
-        {
-            context.Result = new UnauthorizedResult();
-        }
+        if (!user.Identity?.IsAuthenticated == true) context.Result = new UnauthorizedResult();
     }
 }

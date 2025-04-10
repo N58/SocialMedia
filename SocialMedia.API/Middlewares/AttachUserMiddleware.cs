@@ -9,13 +9,14 @@ namespace SocialMedia.API.Middlewares;
 
 public sealed class AttachUserMiddleware(RequestDelegate next)
 {
-    public async Task InvokeAsync(HttpContext context, IMediator mediator, IMapper mapper, CurrentUserService currentUserService)
+    public async Task InvokeAsync(HttpContext context, IMediator mediator, IMapper mapper,
+        CurrentUserService currentUserService)
     {
         if (context.User.Identity?.IsAuthenticated == true)
         {
             var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
             var userResult = await mediator.Send(new GetUserByUserIdQuery(userId));
-            
+
             if (userResult is { IsSuccess: true, Value: not null })
             {
                 currentUserService.User = userResult.Value;
@@ -24,17 +25,14 @@ public sealed class AttachUserMiddleware(RequestDelegate next)
             {
                 await SyncUser(mediator, context.User);
                 userResult = await mediator.Send(new GetUserByUserIdQuery(userId));
-                
-                if (userResult is { IsSuccess: true, Value: not null })
-                {
-                    currentUserService.User = userResult.Value;
-                }
+
+                if (userResult is { IsSuccess: true, Value: not null }) currentUserService.User = userResult.Value;
             }
         }
-        
+
         await next(context);
     }
-    
+
     private static async Task SyncUser(IMediator mediator, ClaimsPrincipal user)
     {
         await mediator.Send(new SyncUserCommand(

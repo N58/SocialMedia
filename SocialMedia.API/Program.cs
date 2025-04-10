@@ -11,7 +11,7 @@ using SocialMedia.ServiceDefaults;
 var builder = WebApplication.CreateBuilder(args);
 
 var authConfig = builder.Configuration.GetSection("Authentication").Get<AuthOptions>();
-    
+
 builder.AddServiceDefaults();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();

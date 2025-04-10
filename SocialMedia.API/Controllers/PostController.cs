@@ -1,6 +1,5 @@
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.API.Attributes;
 using SocialMedia.API.Responses;
