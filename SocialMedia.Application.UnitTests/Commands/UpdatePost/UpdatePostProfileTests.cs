@@ -21,7 +21,12 @@ public class UpdatePostProfileTests
     {
         var postId = Guid.NewGuid();
         const string initContent = "some random text";
-        var command = new UpdatePostCommand(postId, initContent);
+        var command = new UpdatePostCommand
+        {
+            Id = postId,
+            Content = initContent,
+            AuthorId = "12345"
+        };
 
         var post = _mapper.Map<Post>(command);
 

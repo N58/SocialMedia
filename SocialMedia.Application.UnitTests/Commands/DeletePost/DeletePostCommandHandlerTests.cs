@@ -21,25 +21,31 @@ public class DeletePostCommandHandlerTests
             Id = _correctGuid,
             Content = "post data",
             CreatedDate = default,
-            UpdatedDate = null
+            UpdatedDate = null,
+            AuthorId = "12345",
+            Author = null!
         };
     }
 
     [Fact]
     public async Task Handle_IdNotExists_ReturnsFail()
     {
-        var command = new DeletePostCommand(_incorrectGuid);
+        var command = new DeletePostCommand
+        {
+            Id = _incorrectGuid,
+            AuthorId = null!
+        };
         var handler = new DeletePostCommandHandler(_postRepositoryMock.Object);
         _postRepositoryMock
             .Setup(x =>
-                x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
+                x.GetEntityByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_postMock);
 
         var result = await handler.Handle(command);
 
         _correctGuid.ShouldNotBe(_incorrectGuid);
         _postRepositoryMock.Verify(x =>
-            x.GetByIdAsync(_incorrectGuid, It.IsAny<CancellationToken>()), Times.Once);
+            x.GetEntityByIdAsync(_incorrectGuid, It.IsAny<CancellationToken>()), Times.Once);
         _postRepositoryMock.Verify(x =>
             x.DeleteAsync(_postMock, It.IsAny<CancellationToken>()), Times.Never);
         result.IsFailed.ShouldBeTrue();
@@ -49,17 +55,21 @@ public class DeletePostCommandHandlerTests
     [Fact]
     public async Task Handle_IdCorrect_ReturnsSuccess()
     {
-        var command = new DeletePostCommand(_correctGuid);
+        var command = new DeletePostCommand
+        {
+            Id = _correctGuid,
+            AuthorId = "12345"
+        };
         var handler = new DeletePostCommandHandler(_postRepositoryMock.Object);
         _postRepositoryMock
             .Setup(x =>
-                x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
+                x.GetEntityByIdAsync(_correctGuid, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_postMock);
 
         var result = await handler.Handle(command);
 
         _postRepositoryMock.Verify(x =>
-            x.GetByIdAsync(_correctGuid, It.IsAny<CancellationToken>()), Times.Once);
+            x.GetEntityByIdAsync(_correctGuid, It.IsAny<CancellationToken>()), Times.Once);
         _postRepositoryMock.Verify(x =>
             x.DeleteAsync(_postMock, It.IsAny<CancellationToken>()), Times.Once);
         result.IsSuccess.ShouldBeTrue();

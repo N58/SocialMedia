@@ -19,7 +19,12 @@ public class UpdatePostValidatorTests
     [Fact]
     public async Task IdValidator_EmptyGuid_ShouldHaveValidationError()
     {
-        var command = new UpdatePostCommand(Guid.Empty, "test test");
+        var command = new UpdatePostCommand
+        {
+            Id = Guid.Empty,
+            Content = "test test",
+            AuthorId = "12345"
+        };
 
         var result = await _validator.TestValidateAsync(command);
 
@@ -30,7 +35,12 @@ public class UpdatePostValidatorTests
     [MemberData(nameof(InvalidContentData))]
     public async Task ContentValidator_InvalidContent_ShouldHaveValidationError(string content)
     {
-        var command = new UpdatePostCommand(Guid.NewGuid(), content);
+        var command = new UpdatePostCommand
+        {
+            Id = Guid.NewGuid(),
+            Content = content,
+            AuthorId = "12345"
+        };
 
         var result = await _validator.TestValidateAsync(command);
 
@@ -44,7 +54,12 @@ public class UpdatePostValidatorTests
     public async Task ContentValidator_ValidContent_ShouldNotHaveValidationError(int length)
     {
         var content = new string('a', length);
-        var command = new UpdatePostCommand(Guid.NewGuid(), content);
+        var command = new UpdatePostCommand
+        {
+            Id = Guid.NewGuid(),
+            Content = content,
+            AuthorId = "12345"
+        };
 
         var result = await _validator.TestValidateAsync(command);
 
