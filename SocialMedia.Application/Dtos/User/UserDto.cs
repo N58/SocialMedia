@@ -1,6 +1,6 @@
-namespace SocialMedia.API.Responses.User;
+namespace SocialMedia.Application.Dtos.User;
 
-public class UserResponse
+public class UserDto
 {
     public required string Id { get; set; }
     public required string GivenName { get; set; }

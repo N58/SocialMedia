@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { LogOut, Settings, User as UserIcon } from "lucide-svelte";
+  import LucideLogOut from "~icons/lucide/log-out";
+  import LucideSettings from "~icons/lucide/settings";
+  import LucideUser from "~icons/lucide/user";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
   import type { User } from "$lib/models/User.ts";
 
@@ -14,17 +16,17 @@
     <DropdownMenu.Separator />
     <DropdownMenu.Group>
       <DropdownMenu.Item>
-        <UserIcon />
+        <LucideUser />
         Profile
       </DropdownMenu.Item>
       <DropdownMenu.Item>
-        <Settings />
+        <LucideSettings />
         Settings
       </DropdownMenu.Item>
       <form method="POST" action="/auth/logout">
         <button type="submit" class="w-full">
           <DropdownMenu.Item>
-            <LogOut /> Sign out
+            <LucideLogOut /> Sign out
           </DropdownMenu.Item>
         </button>
       </form>

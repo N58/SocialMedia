@@ -16,7 +16,7 @@
     <Pagination.Content>
       <Pagination.Item>
         <Pagination.PrevButton
-          onclick={() => handlePageChange(currentPage - 1, size)}
+          onclick={handlePageChange(currentPage - 1, size)}
         />
       </Pagination.Item>
       {#each pages as page (page.key)}
@@ -29,7 +29,7 @@
             <Pagination.Link
               {page}
               isActive={currentPage === page.value}
-              onclick={() => handlePageChange(page.value, size)}
+              onclick={handlePageChange(page.value, size)}
             >
               {page.value}
             </Pagination.Link>
@@ -38,7 +38,7 @@
       {/each}
       <Pagination.Item>
         <Pagination.NextButton
-          onclick={() => handlePageChange(currentPage + 1, size)}
+          onclick={handlePageChange(currentPage + 1, size)}
         />
       </Pagination.Item>
     </Pagination.Content>

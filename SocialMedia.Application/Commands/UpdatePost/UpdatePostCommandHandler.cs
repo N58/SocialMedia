@@ -15,7 +15,7 @@ public class UpdatePostCommandHandler(
 {
     public async Task<Result> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
     {
-        var postInDb = await postRepository.GetByIdAsync(request.Id, cancellationToken);
+        var postInDb = await postRepository.GetEntityByIdAsync(request.Id, cancellationToken);
 
         if (postInDb == null)
             return Result.Fail(Errors.Post.NoPostWithGivenId);

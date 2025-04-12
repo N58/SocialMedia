@@ -1,7 +1,7 @@
 using FluentResults;
 using MediatR;
-using SocialMedia.Domain.Entities;
+using SocialMedia.Application.Dtos.Post;
 
 namespace SocialMedia.Application.Queries.GetPost;
 
-public record GetPostQuery(Guid Id) : IRequest<Result<Post>>;
+public record GetPostQuery(Guid Id) : IRequest<Result<PostDto>>;

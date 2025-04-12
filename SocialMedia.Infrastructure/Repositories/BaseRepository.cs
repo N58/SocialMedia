@@ -7,7 +7,7 @@ namespace SocialMedia.Infrastructure.Repositories;
 internal abstract class BaseRepository<TBaseEntity>(DbContext dbContext)
     : IBaseRepository<TBaseEntity> where TBaseEntity : BaseEntity
 {
-    public async Task<TBaseEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<TBaseEntity?> GetEntityByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await dbContext.Set<TBaseEntity>().AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);

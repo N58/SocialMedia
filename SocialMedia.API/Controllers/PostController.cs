@@ -3,11 +3,11 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.API.Attributes;
 using SocialMedia.API.Requests;
-using SocialMedia.API.Responses;
-using SocialMedia.API.Responses.Post;
 using SocialMedia.Application.Commands.CreatePost;
 using SocialMedia.Application.Commands.DeletePost;
 using SocialMedia.Application.Commands.UpdatePost;
+using SocialMedia.Application.Dtos;
+using SocialMedia.Application.Dtos.Post;
 using SocialMedia.Application.Queries.GetPost;
 using SocialMedia.Application.Queries.GetPostsPaged;
 using SocialMedia.Application.Services;
@@ -36,25 +36,24 @@ public class PostController(IMediator mediator, IMapper mapper, CurrentUserServi
     }
 
     [HttpGet("{id:guid}")]
-    [ProducesResponseType(typeof(PostResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PostDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PostResponse>> GetPost(Guid id)
+    public async Task<ActionResult<PostDto>> GetPost(Guid id)
     {
         var result = await mediator.Send(new GetPostQuery(id));
 
-        var response = mapper.Map<PostResponse>(result.Value);
+        var response = mapper.Map<PostDto>(result.Value);
         return Ok(response);
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(PagedResponse<PostResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedDto<PostDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PostResponse>> GetPostsPaged([FromQuery] GetPostsPagedQuery query)
+    public async Task<ActionResult<PostDto>> GetPostsPaged([FromQuery] GetPostsPagedQuery query)
     {
         var result = await mediator.Send(query);
 
-        var response = mapper.Map<PagedResponse<PostResponse>>(result.Value);
-        return Ok(response);
+        return Ok(result.Value);
     }
 
     [RequireAuthenticated]

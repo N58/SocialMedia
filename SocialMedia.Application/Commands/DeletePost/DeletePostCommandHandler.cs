@@ -3,6 +3,7 @@ using MediatR;
 using SocialMedia.Application.Interfaces;
 using SocialMedia.Application.Services;
 using SocialMedia.Domain.Constants;
+using SocialMedia.Domain.Entities;
 
 namespace SocialMedia.Application.Commands.DeletePost;
 
@@ -11,7 +12,7 @@ internal class DeletePostCommandHandler(IPostRepository postRepository)
 {
     public async Task<Result> Handle(DeletePostCommand request, CancellationToken cancellationToken = default)
     {
-        var post = await postRepository.GetByIdAsync(request.Id, cancellationToken);
+        var post = await postRepository.GetEntityByIdAsync(request.Id, cancellationToken);
 
         if (post == null)
             return Result.Fail(Errors.Post.NoPostWithGivenId);

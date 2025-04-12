@@ -1,7 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.API.Attributes;
-using SocialMedia.API.Responses.User;
+using SocialMedia.Application.Dtos.User;
 using SocialMedia.Application.Services;
 using SocialMedia.Domain.Entities;
 
@@ -18,7 +18,7 @@ public class UserController(IMapper mapper, CurrentUserService currentUserServic
     public async Task<ActionResult> Me()
     {
         var user = currentUserService.User;
-        var responseUser = mapper.Map<UserResponse>(user);
+        var responseUser = mapper.Map<UserDto>(user);
         return Ok(responseUser);
     }
 }

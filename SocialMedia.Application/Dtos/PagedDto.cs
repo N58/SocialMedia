@@ -1,6 +1,6 @@
-namespace SocialMedia.API.Responses;
+namespace SocialMedia.Application.Dtos;
 
-public class PagedResponse<T>
+public class PagedDto<T>
 {
     public required int Count { get; init; }
     public required int TotalCount { get; init; }
