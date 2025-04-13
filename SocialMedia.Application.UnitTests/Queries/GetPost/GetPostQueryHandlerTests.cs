@@ -4,7 +4,6 @@ using SocialMedia.Application.Dtos.Post;
 using SocialMedia.Application.Interfaces;
 using SocialMedia.Application.Queries.GetPost;
 using SocialMedia.Domain.Constants;
-using SocialMedia.Domain.Entities;
 
 namespace SocialMedia.UnitTests.Queries.GetPost;
 
@@ -24,8 +23,7 @@ public class GetPostQueryHandlerTests
             CreatedDate = default,
             AuthorGivenName = "John",
             AuthorFamilyName = "Doe",
-            AuthorImage = "image1.jpg",
-
+            AuthorImage = "image1.jpg"
         };
     }
 

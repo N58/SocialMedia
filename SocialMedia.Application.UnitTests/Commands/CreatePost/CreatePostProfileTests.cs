@@ -20,7 +20,7 @@ public class CreatePostProfileTests
     public void Mapper_CommandMapping_MappedToPost()
     {
         const string initContent = "some random text";
-        var command = new CreatePostCommand()
+        var command = new CreatePostCommand
         {
             Content = initContent,
             AuthorId = "12345"

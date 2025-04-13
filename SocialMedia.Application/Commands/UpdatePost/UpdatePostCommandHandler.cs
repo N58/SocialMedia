@@ -2,7 +2,6 @@ using AutoMapper;
 using FluentResults;
 using MediatR;
 using SocialMedia.Application.Interfaces;
-using SocialMedia.Application.Services;
 using SocialMedia.Domain.Constants;
 using SocialMedia.Domain.Entities;
 

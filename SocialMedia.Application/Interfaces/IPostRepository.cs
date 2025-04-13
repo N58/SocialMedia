@@ -8,7 +8,7 @@ namespace SocialMedia.Application.Interfaces;
 public interface IPostRepository : IBaseRepository<Post>
 {
     new Task<PostDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-    
+
     Task<Paged<PostDto>> GetPagedAsync(
         int page,
         int size,

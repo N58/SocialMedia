@@ -20,7 +20,7 @@ internal class PostRepository(AppDbContext dbContext) : BaseRepository<Post>(dbC
                 AuthorGivenName = p.Author.GivenName,
                 AuthorFamilyName = p.Author.FamilyName,
                 AuthorImage = p.Author.Image,
-                CreatedDate = p.CreatedDate,
+                CreatedDate = p.CreatedDate
             })
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }

@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using FluentResults;
 using Moq;
 using Shouldly;
 using SocialMedia.Application.Dtos.Post;
@@ -38,11 +37,11 @@ public class GetPostsPagedQueryHandlerTests
             Id = Guid.NewGuid(),
             Content = "post data 2",
             AuthorId = "111222333",
-            Author = new User 
-            { 
-                Id = "111222333", 
-                GivenName = "Jane", 
-                FamilyName = "Smith", 
+            Author = new User
+            {
+                Id = "111222333",
+                GivenName = "Jane",
+                FamilyName = "Smith",
                 Image = "image2.jpg",
                 Email = string.Empty,
                 Posts = new List<Post>(),
@@ -57,11 +56,11 @@ public class GetPostsPagedQueryHandlerTests
             Id = Guid.NewGuid(),
             Content = "post data 3",
             AuthorId = "987654321",
-            Author = new User 
-            { 
-                Id = "987654321", 
-                GivenName = "Mike", 
-                FamilyName = "Brown", 
+            Author = new User
+            {
+                Id = "987654321",
+                GivenName = "Mike",
+                FamilyName = "Brown",
                 Image = "image3.jpg",
                 Email = string.Empty,
                 Posts = new List<Post>(),
@@ -97,7 +96,7 @@ public class GetPostsPagedQueryHandlerTests
 
         var postsList = PostsListMock.OrderBy(orderByPredicate.Compile()).ToList();
         var pagedPosts = new Paged<Post>(postsList, postsList.Count, size, page);
-        
+
         var postDtos = postsList.Select(p => new PostDto
         {
             Id = p.Id,
@@ -107,12 +106,12 @@ public class GetPostsPagedQueryHandlerTests
             AuthorImage = p.Author.Image,
             CreatedDate = p.CreatedDate
         }).ToList();
-        
+
         var expectedResult = new Paged<PostDto>(postDtos, postsList.Count, size, page);
-        
+
         var query = new GetPostsPagedQuery(page, size, sortColumn, sortOrder);
         var handler = new GetPostsPagedQueryHandler(_postRepositoryMock.Object);
-        
+
         _postRepositoryMock
             .Setup(x => x.GetPagedAsync(page, size, It.IsAny<Expression<Func<Post, object>>>(), sortOrder,
                 It.IsAny<CancellationToken>()))
@@ -125,10 +124,10 @@ public class GetPostsPagedQueryHandlerTests
         _postRepositoryMock.Verify(x =>
             x.GetPagedAsync(page, size, It.IsAny<Expression<Func<Post, object>>>(), sortOrder,
                 It.IsAny<CancellationToken>()), Times.Once);
-                
+
         result.IsSuccess.ShouldBeTrue();
         result.Value.ShouldNotBeNull();
-        
+
         result.Value.Data.Count.ShouldBe(expectedResult.Data.Count);
         result.Value.ShouldBeEquivalentTo(expectedResult);
     }

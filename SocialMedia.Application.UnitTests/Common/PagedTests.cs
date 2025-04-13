@@ -1,4 +1,3 @@
-using FluentValidation.Results;
 using Shouldly;
 using SocialMedia.Application.Validators;
 using SocialMedia.Domain.Common;
@@ -7,8 +6,8 @@ namespace SocialMedia.UnitTests.Common;
 
 public class PagedTests
 {
-    private readonly PagedValidator<string> _stringValidator = new();
     private readonly PagedValidator<int> _intValidator = new();
+    private readonly PagedValidator<string> _stringValidator = new();
 
     [Fact]
     public void Constructor_ShouldInitializeAllProperties()
@@ -27,7 +26,7 @@ public class PagedTests
         paged.TotalCount.ShouldBe(totalCount);
         paged.Page.ShouldBe(page);
         paged.Size.ShouldBe(size);
-            
+
         var validationResult = _stringValidator.Validate(paged);
         validationResult.IsValid.ShouldBeTrue();
     }
@@ -41,7 +40,7 @@ public class PagedTests
 
         // Act & Assert
         paged.Count.ShouldBe(5);
-            
+
         var validationResult = _intValidator.Validate(paged);
         validationResult.IsValid.ShouldBeTrue();
     }
@@ -59,7 +58,7 @@ public class PagedTests
 
         // Act & Assert
         paged.TotalPages.ShouldBe(expectedTotalPages);
-            
+
         var validationResult = _stringValidator.Validate(paged);
         validationResult.IsValid.ShouldBeTrue();
     }
@@ -69,7 +68,7 @@ public class PagedTests
     {
         // Arrange
         var data = new List<double>();
-            
+
         // Act
         var paged = new Paged<double>(data, 0, 1, 10);
         var validator = new PagedValidator<double>();
@@ -78,7 +77,7 @@ public class PagedTests
         paged.Count.ShouldBe(0);
         paged.TotalCount.ShouldBe(0);
         paged.TotalPages.ShouldBe(0);
-            
+
         var validationResult = validator.Validate(paged);
         validationResult.IsValid.ShouldBeTrue();
     }
@@ -94,7 +93,7 @@ public class PagedTests
         paged.Count.ShouldBe(5);
         paged.TotalCount.ShouldBe(20);
         paged.TotalPages.ShouldBe(4);
-            
+
         var validationResult = _intValidator.Validate(paged);
         validationResult.IsValid.ShouldBeTrue();
     }
@@ -105,10 +104,10 @@ public class PagedTests
         // Arrange
         ICollection<string> data = null!;
         var paged = new Paged<string>(data, 10, 1, 5);
-            
+
         // Act
         var result = _stringValidator.Validate(paged);
-            
+
         // Assert
         result.IsValid.ShouldBeFalse();
         result.Errors.ShouldContain(e => e.PropertyName == nameof(paged.Data));
@@ -122,10 +121,10 @@ public class PagedTests
         // Arrange
         var data = new List<string> { "Item1" };
         var paged = new Paged<string>(data, 10, 1, size);
-            
+
         // Act
         var result = _stringValidator.Validate(paged);
-            
+
         // Assert
         result.IsValid.ShouldBeFalse();
         result.Errors.ShouldContain(e => e.PropertyName == nameof(paged.Size));
@@ -139,10 +138,10 @@ public class PagedTests
         // Arrange
         var data = new List<string> { "Item1" };
         var paged = new Paged<string>(data, 10, page, 5);
-            
+
         // Act
         var result = _stringValidator.Validate(paged);
-            
+
         // Assert
         result.IsValid.ShouldBeFalse();
         result.Errors.ShouldContain(e => e.PropertyName == nameof(paged.Page));
@@ -155,10 +154,10 @@ public class PagedTests
         // Arrange
         var data = new List<string> { "Item1" };
         var paged = new Paged<string>(data, totalCount, 1, 5);
-            
+
         // Act
         var result = _stringValidator.Validate(paged);
-            
+
         // Assert
         result.IsValid.ShouldBeFalse();
         result.Errors.ShouldContain(e => e.PropertyName == nameof(paged.TotalCount));
