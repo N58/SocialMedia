@@ -6,7 +6,9 @@ using SocialMedia.Domain.Entities;
 
 namespace SocialMedia.Application.Commands.CreatePost;
 
-internal class CreatePostCommandHandler(IPostRepository postRepository, IMapper mapper)
+internal class CreatePostCommandHandler(
+    IPostRepository postRepository,
+    IMapper mapper)
     : IRequestHandler<CreatePostCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreatePostCommand command, CancellationToken cancellationToken)

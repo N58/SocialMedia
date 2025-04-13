@@ -20,7 +20,11 @@ public class CreatePostProfileTests
     public void Mapper_CommandMapping_MappedToPost()
     {
         const string initContent = "some random text";
-        var command = new CreatePostCommand(initContent);
+        var command = new CreatePostCommand
+        {
+            Content = initContent,
+            AuthorId = "12345"
+        };
 
         var post = _mapper.Map<Post>(command);
 

@@ -6,6 +6,7 @@
   import PostList from "$lib/components/posts/PostList.svelte";
   import { navigating } from "$app/state";
   import PostPagination from "$lib/components/posts/PostPagination.svelte";
+  import { currentUser } from "$lib/stores/currentUser.svelte.ts";
 
   let { data }: { data: PageData } = $props();
 </script>
@@ -13,7 +14,7 @@
 <Toaster />
 
 <section class="flex flex-col w-1/3 gap-2 my-5">
-  {#if !!data.session?.user.uid}
+  {#if currentUser.isAuthenticated}
     <AddPostForm {data} />
   {/if}
 

@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialMedia.Application.Commands.CreatePost;
+using SocialMedia.Application.Services;
 
 namespace SocialMedia.Application;
 
@@ -15,5 +16,7 @@ public static class DiConfig
         services.AddFluentValidationClientsideAdapters();
         services.AddValidatorsFromAssemblyContaining<CreatePostValidator>();
         services.AddAutoMapper(typeof(CreatePostProfile));
+
+        services.AddScoped<CurrentUserService>();
     }
 }

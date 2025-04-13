@@ -1,6 +1,9 @@
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
+import dotenv from "dotenv";
 import Icons from "unplugin-icons/vite";
+
+dotenv.config();
 
 export default defineConfig({
   plugins: [
@@ -12,7 +15,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5256",
+        target: process.env.VITE_BACKEND_API,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },

@@ -1,9 +1,9 @@
 using Moq;
 using Shouldly;
+using SocialMedia.Application.Dtos.Post;
 using SocialMedia.Application.Interfaces;
 using SocialMedia.Application.Queries.GetPost;
 using SocialMedia.Domain.Constants;
-using SocialMedia.Domain.Entities;
 
 namespace SocialMedia.UnitTests.Queries.GetPost;
 
@@ -11,17 +11,19 @@ public class GetPostQueryHandlerTests
 {
     private readonly Guid _correctGuid = Guid.NewGuid();
     private readonly Guid _incorrectGuid = Guid.NewGuid();
-    private readonly Post _postMock;
+    private readonly PostDto _postMock;
     private readonly Mock<IPostRepository> _postRepositoryMock = new();
 
     public GetPostQueryHandlerTests()
     {
-        _postMock = new Post
+        _postMock = new PostDto
         {
             Id = _correctGuid,
             Content = "post data",
             CreatedDate = default,
-            UpdatedDate = null
+            AuthorGivenName = "John",
+            AuthorFamilyName = "Doe",
+            AuthorImage = "image1.jpg"
         };
     }
 

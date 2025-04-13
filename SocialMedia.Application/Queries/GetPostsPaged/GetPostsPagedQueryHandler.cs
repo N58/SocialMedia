@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using FluentResults;
 using MediatR;
+using SocialMedia.Application.Dtos.Post;
 using SocialMedia.Application.Interfaces;
 using SocialMedia.Domain.Common;
 using SocialMedia.Domain.Entities;
@@ -8,9 +9,9 @@ using SocialMedia.Domain.Entities;
 namespace SocialMedia.Application.Queries.GetPostsPaged;
 
 internal class GetPostsPagedQueryHandler(IPostRepository postRepository)
-    : IRequestHandler<GetPostsPagedQuery, Result<Paged<Post>>>
+    : IRequestHandler<GetPostsPagedQuery, Result<Paged<PostDto>>>
 {
-    public async Task<Result<Paged<Post>>> Handle(GetPostsPagedQuery request, CancellationToken cancellationToken)
+    public async Task<Result<Paged<PostDto>>> Handle(GetPostsPagedQuery request, CancellationToken cancellationToken)
     {
         Expression<Func<Post, object>> orderBy = request.SortColumn?.ToLower() switch
         {

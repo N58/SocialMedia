@@ -11,7 +11,11 @@ public class DeletePostValidatorTests
     public async Task IdValidator_IdIsEmptyGuid_ReturnsFail()
     {
         var id = Guid.Empty;
-        var command = new DeletePostCommand(id);
+        var command = new DeletePostCommand
+        {
+            Id = id,
+            AuthorId = "12345"
+        };
 
         var result = await _validator.TestValidateAsync(command);
 

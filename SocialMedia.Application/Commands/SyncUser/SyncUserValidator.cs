@@ -6,7 +6,7 @@ public class SyncUserValidator : AbstractValidator<SyncUserCommand>
 {
     public SyncUserValidator()
     {
-        RuleFor(user => user.Uid)
+        RuleFor(user => user.Id)
             .NotEmpty()
             .MaximumLength(255);
         RuleFor(user => user.GivenName)

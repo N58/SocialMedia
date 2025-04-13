@@ -20,7 +20,11 @@ public class CreatePostValidatorTests
     [MemberData(nameof(InvalidContentData))]
     public async Task ContentValidator_InvalidContent_ShouldHaveValidationError(string content)
     {
-        var command = new CreatePostCommand(content);
+        var command = new CreatePostCommand
+        {
+            Content = content,
+            AuthorId = "12345"
+        };
 
         var result = await _validator.TestValidateAsync(command);
 
@@ -34,7 +38,11 @@ public class CreatePostValidatorTests
     public async Task ContentValidator_ValidContent_ShouldNotHaveValidationError(int length)
     {
         var content = new string('a', length);
-        var command = new CreatePostCommand(content);
+        var command = new CreatePostCommand
+        {
+            Content = content,
+            AuthorId = "12345"
+        };
 
         var result = await _validator.TestValidateAsync(command);
 

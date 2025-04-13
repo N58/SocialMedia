@@ -49,7 +49,9 @@ export const actions = {
     const content = form.data.content;
     const response = await event.fetch("/api/post", {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+      },
       body: JSON.stringify({
         content: content,
       }),

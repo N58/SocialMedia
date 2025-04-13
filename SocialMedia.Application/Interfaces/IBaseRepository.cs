@@ -2,8 +2,7 @@ namespace SocialMedia.Application.Interfaces;
 
 public interface IBaseRepository<TBaseEntity>
 {
-    Task<TBaseEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-    Task<ICollection<TBaseEntity>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<TBaseEntity?> GetEntityByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     Task AddAsync(TBaseEntity entity, CancellationToken cancellationToken = default);
 

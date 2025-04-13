@@ -22,7 +22,11 @@ public class CreatePostCommandHandlerTests
     [Fact]
     public async Task Handle_PostCorrect_ShouldCallRepository()
     {
-        var command = new CreatePostCommand("some random text");
+        var command = new CreatePostCommand
+        {
+            Content = "some random text",
+            AuthorId = "12345"
+        };
         var handler = new CreatePostCommandHandler(_postRepositoryMock.Object, _mapper);
         _postRepositoryMock
             .Setup(x =>

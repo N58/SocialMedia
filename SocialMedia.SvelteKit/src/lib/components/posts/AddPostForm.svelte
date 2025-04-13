@@ -8,8 +8,8 @@
   import { Textarea } from "$lib/components/ui/textarea/index";
   import * as Dialog from "$lib/components/ui/dialog/index";
   import { buttonVariants } from "$lib/components/ui/button";
-  import { SquarePlus } from "lucide-svelte";
   import { invalidateAll } from "$app/navigation";
+  import LucideCirclePlus from "~icons/lucide/circle-plus";
   import FormButton from "$lib/components/FormButton.svelte";
 
   let { data = page.data.textarea, isAuthorized = false } = $props();
@@ -20,9 +20,7 @@
   const form = superForm(data.form, {
     validators: zodClient(formSchema),
     onUpdated: ({ form: f }) => {
-      if (f.valid) {
-        toast.success(`You've added a new post successfully.`);
-      } else {
+      if (!f.valid) {
         toast.error("Please fix the errors in the form.");
       }
     },
@@ -35,11 +33,12 @@
       loading = true;
     },
     onResult: async ({ result }) => {
-      loading = false;
       if (result.type === "success") {
-        open = false;
         await invalidateAll();
+        open = false;
+        toast.success(`You've added a new post successfully.`);
       }
+      loading = false;
     },
   });
 
@@ -49,7 +48,7 @@
 <div class="grid grid-cols-5 gap-2">
   <Dialog.Root bind:open>
     <Dialog.Trigger class={buttonVariants({ variant: "default" })}>
-      <SquarePlus />
+      <LucideCirclePlus />
       <span>New Post</span>
     </Dialog.Trigger>
     <Dialog.Content>
